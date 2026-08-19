@@ -149,38 +149,68 @@ export async function drawChallenge(guestId, kind = 'random') {
 
 /**
  * Escolhe um desafio específico da lista, em vez de sortear.
- * Só funciona quando não há nenhum ativo do mesmo tipo, para não existirem
- * duas missões abertas ao mesmo tempo.
+ * Pode trocar a qualquer momento: se já houver uma missão em andamento, ela
+ * vira "passada" e a escolhida assume o lugar. Missão já concluída não volta.
  * @param {'random'|'adult'} kind
  */
 export async function pickChallenge(guestId, challengeId, kind = 'random') {
   const db = requireClient()
 
-  const [challenges, drawn] = await Promise.all([
+  const [challenges, drawn, guest] = await Promise.all([
     listChallenges(),
     unwrap(await db.from('drawn_challenges').select('challenge_id, status').eq('guest_id', guestId)),
+    getGuest(guestId),
   ])
 
   const pool = challenges.filter((c) => c.type === kind)
   const poolIds = new Set(pool.map((c) => c.id))
 
-  if (drawn.some((d) => d.status === 'active' && poolIds.has(d.challenge_id))) {
-    throw new Error('Você já tem uma missão em andamento. Cumpra ou passe antes de escolher outra.')
-  }
-
   const target = pool.find((c) => c.id === challengeId)
   if (!target) throw new Error('Missão não encontrada.')
-  if (drawn.some((d) => d.challenge_id === challengeId)) {
-    throw new Error('Essa missão já passou por você.')
+
+  const registro = drawn.find((d) => d.challenge_id === challengeId)
+  if (registro?.status === 'completed') throw new Error('Você já concluiu essa missão.')
+  if (registro?.status === 'active') return { challenge: target } // já é a atual
+
+  // A missão em andamento cede o lugar e entra na conta de puladas.
+  const atual = drawn.find((d) => d.status === 'active' && poolIds.has(d.challenge_id))
+  if (atual) {
+    unwrap(
+      await db
+        .from('drawn_challenges')
+        .update({ status: 'passed' })
+        .eq('guest_id', guestId)
+        .eq('challenge_id', atual.challenge_id)
+        .eq('status', 'active')
+    )
+    const field = kind === 'adult' ? 'passes_18_used' : 'passes_used'
+    unwrap(
+      await db
+        .from('guests')
+        .update({ [field]: (guest?.[field] ?? 0) + 1 })
+        .eq('id', guestId)
+    )
   }
 
-  unwrap(
-    await db
-      .from('drawn_challenges')
-      .insert({ guest_id: guestId, challenge_id: challengeId, status: 'active' })
-      .select()
-      .single()
-  )
+  if (registro) {
+    // Já tinha sido sorteada e passada antes — reativa em vez de duplicar.
+    unwrap(
+      await db
+        .from('drawn_challenges')
+        .update({ status: 'active', drawn_at: new Date().toISOString() })
+        .eq('guest_id', guestId)
+        .eq('challenge_id', challengeId)
+    )
+  } else {
+    unwrap(
+      await db
+        .from('drawn_challenges')
+        .insert({ guest_id: guestId, challenge_id: challengeId, status: 'active' })
+        .select()
+        .single()
+    )
+  }
+
   return { challenge: target }
 }
 

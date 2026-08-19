@@ -64,13 +64,14 @@ export default function Missions() {
     return dados.pool.filter((c) => {
       const s = dados.statusById.get(c.id)
       if (filter === 'done') return s === 'completed'
-      if (filter === 'todo') return !s
+      // "Disponíveis" inclui as passadas, que voltaram a ser escolhíveis.
+      if (filter === 'todo') return s !== 'completed' && s !== 'active'
       return true
     })
   }, [dados, filter])
 
   async function pick(c) {
-    if (dados?.temAtiva || picking) return
+    if (picking) return
     setPicking(c.id)
     setError(null)
     try {
@@ -108,16 +109,9 @@ export default function Missions() {
         </div>
       </div>
 
-      <p
-        className={`rounded-xl border p-3 text-sm ${
-          dados?.temAtiva
-            ? 'border-gold/40 bg-gold/10 text-petroleum'
-            : 'border-tiffany/50 bg-tiffany-soft text-petroleum'
-        }`}
-      >
-        {dados?.temAtiva
-          ? 'Você já tem uma missão em andamento. Cumpra ou passe a atual para escolher outra daqui.'
-          : 'Toque numa missão disponível para escolhê-la como a sua atual.'}
+      <p className="rounded-xl border border-tiffany/50 bg-tiffany-soft p-3 text-sm text-petroleum">
+        Toque em qualquer missão para escolhê-la como a sua atual.
+        {dados?.temAtiva && ' A que estiver em andamento volta para a lista.'}
       </p>
 
       <div className="no-scrollbar -mx-1 flex gap-2 overflow-x-auto px-1">
@@ -144,7 +138,8 @@ export default function Missions() {
           const done = status === 'completed'
           const passed = status === 'passed'
           const isActive = status === 'active'
-          const selectable = !dados.temAtiva && !status
+          // Só o que já foi concluído fica fora de alcance. Passada volta a valer.
+          const selectable = !done && !isActive
 
           return (
             <li key={c.id}>
@@ -159,7 +154,7 @@ export default function Missions() {
                       ? 'border-tiffany bg-tiffany-soft'
                       : 'border-petroleum/10 bg-white/75'
                 } ${selectable ? 'cursor-pointer hover:border-gold' : 'cursor-default'} ${
-                  passed ? 'opacity-50' : ''
+                  passed ? 'opacity-70' : ''
                 }`}
               >
                 <span className="mt-0.5 shrink-0">
