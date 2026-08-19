@@ -36,9 +36,13 @@ export default function Welcome() {
 
         <img src="/brand/laris.svg" alt="Laris" className="mx-auto mt-5 h-8" />
 
-        <p className="mx-auto mt-6 max-w-sm text-sm text-petroleum/60">
-          Cada convidado recebe missões durante a festa. Cumpra, registre em foto ou vídeo e tudo
-          vai parar na galeria coletiva da noite.
+        <p className="mx-auto mt-6 max-w-sm text-[15px] leading-relaxed text-petroleum/75">
+          Quem conhece a Larissa sabe o quanto ela ama registrar momentos. Nada mais justo do que
+          guardar essa noite tão especial pelos olhos de quem ela ama.
+        </p>
+
+        <p className="mx-auto mt-3 max-w-sm text-sm text-petroleum/55">
+          Cumpra as missões, registre em foto ou vídeo, e tudo vira uma galeria coletiva da festa.
         </p>
 
         <Link to="/entrar" className="btn-gold mt-8 w-full text-base">
