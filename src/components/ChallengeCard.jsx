@@ -46,7 +46,7 @@ export default function ChallengeCard({
         )}
       </div>
 
-      <h3 className={`font-display text-xl leading-snug ${dark ? 'text-cream' : 'text-petroleum'}`}>
+      <h3 className={`font-display font-bold text-xl leading-snug ${dark ? 'text-cream' : 'text-petroleum'}`}>
         {challenge?.title}
       </h3>
 

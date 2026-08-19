@@ -35,7 +35,7 @@ export default function Login() {
 
         <div className="text-center">
           <img src="/brand/l30.svg" alt="L30" className="mx-auto h-20" />
-          <h1 className="mt-4 font-display text-4xl font-semibold">Qual é o seu nome?</h1>
+          <h1 className="mt-4 font-display font-bold text-4xl">Qual é o seu nome?</h1>
           <p className="mt-2 text-sm text-petroleum/60">
             Sem senha, sem e-mail. Se você já entrou antes, é só digitar o mesmo nome que a gente
             recupera suas missões.

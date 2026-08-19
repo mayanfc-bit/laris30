@@ -32,7 +32,7 @@
   h1,
   h2,
   h3 {
-    @apply font-display;
+    @apply font-display font-bold;
   }
 
   /* Respeita quem prefere menos movimento. */
@@ -84,7 +84,7 @@
   }
 
   .section-title {
-    @apply font-display text-2xl font-semibold text-petroleum;
+    @apply font-display font-bold text-2xl text-petroleum;
   }
 
   .safe-bottom {

@@ -13,8 +13,9 @@ export default {
         petroleum: '#145A63',
       },
       fontFamily: {
+        // Destaques na serifada (sempre em negrito), corpo e UI em Manrope.
         display: ['"Cormorant Garamond"', 'Georgia', 'serif'],
-        sans: ['"DM Sans"', 'system-ui', 'sans-serif'],
+        sans: ['Manrope', 'system-ui', 'sans-serif'],
       },
       boxShadow: {
         card: '0 6px 24px -8px rgba(20, 90, 99, 0.25)',

@@ -28,9 +28,13 @@ export default function Welcome() {
           className="mx-auto mb-6 w-full max-w-[20rem]"
         />
 
-        <h1 className="font-display text-5xl font-semibold leading-none">Missão 30</h1>
-        <img src="/brand/laris.svg" alt="Laris" className="mx-auto mt-4 h-8" />
-        <p className="mt-3 text-petroleum/70">O aniversário da Larissa</p>
+        <h1 className="font-display font-bold text-5xl leading-none">Missão 30</h1>
+
+        <p className="mx-auto mt-4 max-w-xs font-display font-bold text-xl leading-tight text-gold">
+          The One Where Laris Turns Thirty
+        </p>
+
+        <img src="/brand/laris.svg" alt="Laris" className="mx-auto mt-5 h-8" />
 
         <p className="mx-auto mt-6 max-w-sm text-sm text-petroleum/60">
           Cada convidado recebe missões durante a festa. Cumpra, registre em foto ou vídeo e tudo

@@ -1,4 +1,4 @@
-﻿# Missão 30 🎉
+# Missão 30 🎉
 
 Sistema de desafios interativos para os convidados da festa de 30 anos da **Larissa**.
 Os convidados entram pelo QR Code, digitam o nome, recebem missões sorteadas e enviam foto/vídeo
@@ -153,7 +153,7 @@ por convidado. Com muitos vídeos isso demora — é preciso deixar a aba aberta
 | Creme (fundo) | `#F8F4EE` |
 | Azul petróleo | `#145A63` |
 
-Tipografia: **Cormorant Garamond** (títulos) + **DM Sans** (corpo), via Google Fonts.
+Tipografia: **Cormorant Garamond** em negrito nos destaques e títulos + **Manrope** no corpo e na interface, via Google Fonts.
 Os logos vetoriais (`L30`, `LARIS` e a moldura estilo Friends) estão em `public/brand/`.
 
 ---

@@ -76,7 +76,7 @@ export default function DrawSection({
           className={`mx-auto h-10 w-10 animate-spin ${dark ? 'text-pink' : 'text-gold'}`}
           aria-hidden="true"
         />
-        <p className="mt-4 animate-shuffle font-display text-xl leading-snug">
+        <p className="mt-4 animate-shuffle font-display font-bold text-xl leading-snug">
           {spinTitle || 'Embaralhando…'}
         </p>
         <p className={`mt-2 text-xs ${dark ? 'text-cream/60' : 'text-petroleum/50'}`}>
@@ -123,7 +123,7 @@ export default function DrawSection({
         }`}
       >
         <Sparkles className={`mx-auto h-8 w-8 ${dark ? 'text-pink' : 'text-gold'}`} />
-        <p className="mt-3 font-display text-xl">Você zerou essa categoria!</p>
+        <p className="mt-3 font-display font-bold text-xl">Você zerou essa categoria!</p>
         <p className={`mt-1 text-sm ${dark ? 'text-cream/70' : 'text-petroleum/60'}`}>
           Não sobrou nenhuma missão nova por aqui. Lenda. 👑
         </p>

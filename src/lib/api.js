@@ -1,4 +1,4 @@
-﻿import { supabase, MEDIA_BUCKET, MAX_FILE_BYTES, MAX_PASSES } from './supabase'
+import { supabase, MEDIA_BUCKET, MAX_FILE_BYTES, MAX_PASSES } from './supabase'
 
 /* ------------------------------------------------------------------ */
 /* Helpers                                                             */

@@ -58,8 +58,8 @@ export default function Profile() {
       <ConfigWarning />
 
       <header className="card text-center">
-        <p className="text-sm text-petroleum/60">Convidado</p>
-        <h1 className="font-display text-4xl leading-tight">{guest?.name}</h1>
+        <p className="text-sm text-petroleum/60">The One With</p>
+        <h1 className="font-display font-bold text-4xl leading-tight">{guest?.name}</h1>
         <div className="mt-4 grid grid-cols-3 gap-2 text-center">
           <Stat value={total} label={total === 1 ? 'missão' : 'missões'} />
           <Stat value={earned.length} label="conquistas" />
@@ -140,7 +140,7 @@ export default function Profile() {
 function Stat({ value, label }) {
   return (
     <div className="rounded-xl bg-tiffany-soft py-3">
-      <p className="font-display text-3xl text-petroleum">{value}</p>
+      <p className="font-display font-bold text-3xl text-petroleum">{value}</p>
       <p className="text-[11px] leading-tight text-petroleum/60">{label}</p>
     </div>
   )

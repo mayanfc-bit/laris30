@@ -80,7 +80,7 @@ export function Modal({ open, onClose, title, children, tone = 'light' }) {
         }`}
       >
         <div className="mb-3 flex items-start justify-between gap-4">
-          <h2 className={`font-display text-2xl font-semibold ${dark ? 'text-cream' : ''}`}>
+          <h2 className={`font-display font-bold text-2xl ${dark ? 'text-cream' : ''}`}>
             {title}
           </h2>
           <button

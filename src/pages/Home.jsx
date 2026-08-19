@@ -98,10 +98,10 @@ export default function Home() {
       <header className="card flex items-center justify-between gap-4">
         <div>
           <p className="text-sm text-petroleum/60">Oi,</p>
-          <h1 className="font-display text-3xl leading-tight">{guest?.name}</h1>
+          <h1 className="font-display font-bold text-3xl leading-tight">{guest?.name}</h1>
         </div>
         <div className="text-right">
-          <p className="font-display text-4xl text-gold">{derived?.total ?? 0}</p>
+          <p className="font-display font-bold text-4xl text-gold">{derived?.total ?? 0}</p>
           <p className="text-xs text-petroleum/60">
             {derived?.total === 1 ? 'missão feita' : 'missões feitas'}
           </p>
@@ -175,8 +175,9 @@ export default function Home() {
           {!adultUnlocked ? (
             <div className="rounded-2xl border border-pink/40 bg-petroleum p-8 text-center text-cream shadow-card">
               <Lock className="mx-auto h-10 w-10 text-pink" aria-hidden="true" />
-              <h2 className="mt-4 font-display text-3xl">Missões 18+</h2>
-              <p className="mt-2 text-cream/70">Disponível para os corajosos… 🔞</p>
+              <h2 className="mt-4 font-display font-bold text-3xl">Missões 18+</h2>
+              <p className="mt-2 font-display font-bold text-lg text-pink">The One After Vegas</p>
+              <p className="mt-1 text-cream/70">Disponível para os corajosos… 🔞</p>
               <button className="btn-pink mt-6 w-full" onClick={() => setAskAdult(true)}>
                 Quero entrar
               </button>
@@ -209,8 +210,8 @@ export default function Home() {
         onDone={load}
       />
 
-      <Modal open={askAdult} onClose={() => setAskAdult(false)} title="Você tem certeza?" tone="dark">
-        <p className="text-cream/80">É só pra quem já tá no clima 🍹</p>
+      <Modal open={askAdult} onClose={() => setAskAdult(false)} title="The One After Vegas" tone="dark">
+        <p className="text-cream/80">Você tem certeza? É só pra quem já tá no clima 🍹</p>
         <div className="mt-6 grid grid-cols-2 gap-3">
           <button className="btn-ghost !bg-white/10 !text-cream" onClick={() => setAskAdult(false)}>
             Deixa pra lá
