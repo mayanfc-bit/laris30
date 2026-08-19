@@ -148,6 +148,43 @@ export async function drawChallenge(guestId, kind = 'random') {
 }
 
 /**
+ * Escolhe um desafio específico da lista, em vez de sortear.
+ * Só funciona quando não há nenhum ativo do mesmo tipo — senão daria pra
+ * trocar de missão à vontade sem gastar passe.
+ * @param {'random'|'adult'} kind
+ */
+export async function pickChallenge(guestId, challengeId, kind = 'random') {
+  const db = requireClient()
+
+  const [challenges, drawn] = await Promise.all([
+    listChallenges(),
+    unwrap(await db.from('drawn_challenges').select('challenge_id, status').eq('guest_id', guestId)),
+  ])
+
+  const pool = challenges.filter((c) => c.type === kind)
+  const poolIds = new Set(pool.map((c) => c.id))
+
+  if (drawn.some((d) => d.status === 'active' && poolIds.has(d.challenge_id))) {
+    throw new Error('Você já tem uma missão em andamento. Cumpra ou passe antes de escolher outra.')
+  }
+
+  const target = pool.find((c) => c.id === challengeId)
+  if (!target) throw new Error('Missão não encontrada.')
+  if (drawn.some((d) => d.challenge_id === challengeId)) {
+    throw new Error('Essa missão já passou por você.')
+  }
+
+  unwrap(
+    await db
+      .from('drawn_challenges')
+      .insert({ guest_id: guestId, challenge_id: challengeId, status: 'active' })
+      .select()
+      .single()
+  )
+  return { challenge: target }
+}
+
+/**
  * Passa o desafio ativo e sorteia outro na hora.
  * @param {'random'|'adult'} kind
  */

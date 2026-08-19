@@ -51,15 +51,34 @@ export default function Home() {
       )
       return hit ? byId.get(hit.challenge_id) : null
     }
+    // Status de cada desafio, para a lista mostrar o check.
+    // completed vence sobre o que estiver em drawn_challenges.
+    const statusById = new Map()
+    for (const d of drawn) statusById.set(d.challenge_id, d.status)
+    for (const id of doneIds) statusById.set(id, 'completed')
+
+    const fixed = challenges.filter((c) => c.type === 'fixed')
+
     return {
       byId,
       doneIds,
-      fixed: challenges.filter((c) => c.type === 'fixed'),
+      statusById,
+      fixed,
+      fixedDone: fixed.length > 0 && fixed.every((c) => doneIds.has(c.id)),
       activeRandom: activeOf('random'),
       activeAdult: activeOf('adult'),
       total: completions.length,
     }
   }, [state])
+
+  // Assim que as três fixas estiverem completas, o sorteio vira a tela
+  // principal. Só na primeira carga — depois disso a aba é escolha do usuário.
+  const [tabDefinida, setTabDefinida] = useState(false)
+  useEffect(() => {
+    if (!derived || tabDefinida) return
+    if (derived.fixedDone) setTab('random')
+    setTabDefinida(true)
+  }, [derived, tabDefinida])
 
   async function confirmAdult() {
     const updated = await acceptAdultSection(guest.id)
@@ -163,6 +182,7 @@ export default function Home() {
             guest={guest}
             challenges={state.challenges}
             active={derived.activeRandom}
+            statusById={derived.statusById}
             onOpenUpload={setUploadFor}
             onChanged={load}
           />
@@ -193,6 +213,7 @@ export default function Home() {
                 guest={guest}
                 challenges={state.challenges}
                 active={derived.activeAdult}
+                statusById={derived.statusById}
                 onOpenUpload={setUploadFor}
                 onChanged={load}
               />
