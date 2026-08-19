@@ -2,8 +2,17 @@
 // Estratégia: cache-first para o app shell, network-first para todo o resto.
 // Requisições de API/Storage do Supabase nunca são cacheadas.
 
-const CACHE = 'missao30-v1'
-const SHELL = ['/', '/index.html', '/manifest.json', '/icons/icon.svg', '/icons/favicon.svg']
+// Versão do cache: subir sempre que os ícones ou o shell mudarem, senão o
+// celular de quem já instalou continua mostrando o ícone antigo.
+const CACHE = 'missao30-v2'
+const SHELL = [
+  '/',
+  '/index.html',
+  '/manifest.json',
+  '/icons/icon-192.png',
+  '/icons/favicon-32.png',
+  '/icons/apple-touch-icon.png',
+]
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
