@@ -29,10 +29,11 @@
     min-height: 100dvh;
   }
 
+  /* Regra da casa: tudo que usa a serifada vai em ExtraBold (800). */
   h1,
   h2,
   h3 {
-    @apply font-display font-bold;
+    @apply font-display font-extrabold;
   }
 
   /* Respeita quem prefere menos movimento. */
@@ -84,7 +85,7 @@
   }
 
   .section-title {
-    @apply font-display font-bold text-2xl text-petroleum;
+    @apply font-display font-extrabold text-2xl text-petroleum;
   }
 
   .safe-bottom {

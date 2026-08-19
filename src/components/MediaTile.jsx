@@ -44,7 +44,7 @@ export default function MediaTile({ item, showAuthor = true, onOpen }) {
 
       <figcaption className="space-y-1 p-3">
         {showAuthor && author && (
-          <p className="font-display font-bold text-lg leading-tight text-petroleum">{author}</p>
+          <p className="font-display font-extrabold text-lg leading-tight text-petroleum">{author}</p>
         )}
         {title && <p className="text-xs leading-snug text-petroleum/60">{title}</p>}
         {item.caption && <p className="text-sm text-petroleum/80">{item.caption}</p>}

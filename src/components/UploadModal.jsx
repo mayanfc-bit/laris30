@@ -89,7 +89,7 @@ export default function UploadModal({ open, onClose, guest, challenge, onDone })
       {success ? (
         <div className="flex flex-col items-center gap-4 py-6 text-center animate-pop-in">
           <PartyPopper className="h-14 w-14 text-gold" aria-hidden="true" />
-          <p className="font-display font-bold text-2xl">{success}</p>
+          <p className="font-display font-extrabold text-2xl">{success}</p>
           <p className={`text-sm ${adult ? 'text-cream/70' : 'text-petroleum/60'}`}>
             {challenge?.title}
           </p>

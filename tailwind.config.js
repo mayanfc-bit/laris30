@@ -13,8 +13,8 @@ export default {
         petroleum: '#145A63',
       },
       fontFamily: {
-        // Destaques na serifada (sempre em negrito), corpo e UI em Manrope.
-        display: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+        // Destaques em Playfair Display ExtraBold (800), corpo e UI em Manrope.
+        display: ['"Playfair Display"', 'Georgia', 'serif'],
         sans: ['Manrope', 'system-ui', 'sans-serif'],
       },
       boxShadow: {

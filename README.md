@@ -153,7 +153,7 @@ por convidado. Com muitos vídeos isso demora — é preciso deixar a aba aberta
 | Creme (fundo) | `#F8F4EE` |
 | Azul petróleo | `#145A63` |
 
-Tipografia: **Cormorant Garamond** em negrito nos destaques e títulos + **Manrope** no corpo e na interface, via Google Fonts.
+Tipografia: **Playfair Display ExtraBold (800)** nos destaques e títulos + **Manrope** no corpo e na interface, via Google Fonts.
 Os logos vetoriais (`L30`, `LARIS` e a moldura estilo Friends) estão em `public/brand/`.
 
 ---

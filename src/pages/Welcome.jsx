@@ -28,9 +28,9 @@ export default function Welcome() {
           className="mx-auto mb-6 w-full max-w-[20rem]"
         />
 
-        <h1 className="font-display font-bold text-5xl leading-none">Missão 30</h1>
+        <h1 className="font-display font-extrabold text-5xl leading-none">Missão 30</h1>
 
-        <p className="mx-auto mt-4 max-w-xs font-display font-bold text-xl leading-tight text-gold">
+        <p className="mx-auto mt-4 max-w-xs font-display font-extrabold text-xl leading-tight text-gold">
           The One Where Laris Turns Thirty
         </p>
 

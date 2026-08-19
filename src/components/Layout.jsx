@@ -19,7 +19,7 @@ export default function Layout({ children }) {
           <div className="flex items-center gap-3">
             <img src="/brand/l30.svg" alt="" className="h-9 w-9 object-contain" aria-hidden="true" />
             <div className="leading-tight">
-              <p className="font-display font-bold text-xl">Missão 30</p>
+              <p className="font-display font-extrabold text-xl">Missão 30</p>
               <p className="text-xs text-petroleum/60">The One Where Laris Turns Thirty</p>
             </div>
           </div>

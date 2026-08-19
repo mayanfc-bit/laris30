@@ -43,7 +43,7 @@ function PasswordGate({ onOk }) {
     <div className="flex min-h-dvh items-center justify-center px-6">
       <form onSubmit={submit} className="w-full max-w-sm animate-fade-in space-y-4 text-center">
         <Crown className="mx-auto h-10 w-10 text-gold" aria-hidden="true" />
-        <h1 className="font-display font-bold text-3xl">Painel da aniversariante</h1>
+        <h1 className="font-display font-extrabold text-3xl">Painel da aniversariante</h1>
         <p className="text-sm text-petroleum/60">The One With the Birthday Girl. Só a Larissa passa daqui. 👑</p>
         <input
           type="password"
@@ -160,7 +160,7 @@ function Dashboard() {
 
       <header className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="font-display font-bold text-4xl">Painel da aniversariante</h1>
+          <h1 className="font-display font-extrabold text-4xl">Painel da aniversariante</h1>
           <p className="text-sm text-petroleum/60">The One With the Birthday Girl — tudo que rolou na Missão 30.</p>
         </div>
         <div className="flex gap-2">
@@ -292,7 +292,7 @@ function Kpi({ icon: Icon, value, label }) {
   return (
     <div className="card text-center">
       <Icon className="mx-auto h-5 w-5 text-tiffany" aria-hidden="true" />
-      <p className="mt-1 font-display font-bold text-4xl text-petroleum">{value}</p>
+      <p className="mt-1 font-display font-extrabold text-4xl text-petroleum">{value}</p>
       <p className="text-xs text-petroleum/60">{label}</p>
     </div>
   )
