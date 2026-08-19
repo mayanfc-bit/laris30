@@ -156,7 +156,7 @@ export async function passChallenge(guestId, challengeId, kind = 'random') {
   const guest = await getGuest(guestId)
   const field = kind === 'adult' ? 'passes_18_used' : 'passes_used'
   const used = guest?.[field] ?? 0
-  if (used >= MAX_PASSES) throw new Error('Seus passes acabaram! Esse aí você encara. 😄')
+  if (used >= MAX_PASSES) throw new Error('Seus passes acabaram! Esse aí você encara.')
 
   unwrap(
     await db

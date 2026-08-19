@@ -88,8 +88,14 @@
     @apply font-display font-extrabold text-2xl text-petroleum;
   }
 
+}
+
+/* Fica em utilities (e não em components) de propósito: aqui ele ganha de
+   qualquer py-* aplicado no mesmo elemento, que era o que cortava o último
+   card atrás da barra de navegação. */
+@layer utilities {
   .safe-bottom {
-    padding-bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px));
+    padding-bottom: calc(6.5rem + env(safe-area-inset-bottom, 0px));
   }
 }
 

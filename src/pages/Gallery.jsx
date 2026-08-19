@@ -74,7 +74,7 @@ export default function Gallery() {
         <div className="card flex flex-col items-center gap-3 py-12 text-center">
           <Images className="h-10 w-10 text-tiffany" aria-hidden="true" />
           <p className="font-display font-extrabold text-xl">The One With No Photos Yet</p>
-          <p className="text-sm text-petroleum/60">Ainda não tem nada aqui. Seja o primeiro a cumprir uma missão. 😉</p>
+          <p className="text-sm text-petroleum/60">Ainda não tem nada aqui. Seja o primeiro a cumprir uma missão.</p>
         </div>
       ) : (
         <div className="masonry animate-fade-in">

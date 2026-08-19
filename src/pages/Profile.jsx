@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import { BadgeIcon } from '../components/Icons'
 import MediaTile, { isVideoUrl } from '../components/MediaTile'
 import { ConfigWarning, ErrorNote, FullPageLoader, Modal } from '../components/ui'
 import { useAuth } from '../context/AuthContext'
@@ -93,13 +94,17 @@ export default function Profile() {
               className={`rounded-xl border p-3 text-center transition ${
                 b.earned
                   ? 'border-gold/60 bg-gold/10'
-                  : 'border-petroleum/10 bg-white/50 opacity-45 grayscale'
+                  : 'border-petroleum/10 bg-white/50 opacity-60'
               }`}
             >
-              <div className="text-2xl" aria-hidden="true">
-                {b.emoji}
-              </div>
-              <p className="mt-1 text-xs font-medium leading-tight">{b.label}</p>
+              <BadgeIcon id={b.id} earned={b.earned} className="h-10 w-10" />
+              <p
+                className={`mt-2 text-xs font-medium leading-tight ${
+                  b.earned ? 'text-petroleum' : 'text-petroleum/50'
+                }`}
+              >
+                {b.label}
+              </p>
             </div>
           ))}
         </div>
@@ -109,7 +114,7 @@ export default function Profile() {
         <h2 className="section-title mb-3">Meus envios</h2>
         {enriched.length === 0 ? (
           <div className="card py-10 text-center text-sm text-petroleum/60">
-            Você ainda não enviou nada. Bora começar? 🎲
+            Você ainda não enviou nada. Bora começar?
           </div>
         ) : (
           <div className="masonry">

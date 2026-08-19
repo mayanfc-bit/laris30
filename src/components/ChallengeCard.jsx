@@ -1,12 +1,6 @@
 import { Check, Lock, Upload } from 'lucide-react'
+import { DifficultyMark, difficultyLabel } from './Icons'
 import { StatusBadge } from './ui'
-
-export const DIFFICULTY = {
-  easy: { label: 'Fácil', dot: '🟢' },
-  medium: { label: 'Médio', dot: '🟡' },
-  hard: { label: 'Difícil', dot: '🔴' },
-  adult: { label: '18+', dot: '🔞' },
-}
 
 export default function ChallengeCard({
   challenge,
@@ -17,7 +11,7 @@ export default function ChallengeCard({
   onAction,
   children,
 }) {
-  const diff = DIFFICULTY[challenge?.difficulty] || DIFFICULTY.easy
+  const level = challenge?.difficulty || 'easy'
 
   return (
     <article
@@ -30,8 +24,13 @@ export default function ChallengeCard({
       }`}
     >
       <div className="mb-2 flex items-center justify-between gap-3">
-        <span className={`text-xs font-medium ${dark ? 'text-pink' : 'text-gold'}`}>
-          {diff.dot} {diff.label}
+        <span
+          className={`inline-flex items-center gap-1.5 text-xs font-medium ${
+            dark ? 'text-pink' : 'text-gold'
+          }`}
+        >
+          <DifficultyMark level={level} dim={dark} className="h-3.5 w-3.5" />
+          {difficultyLabel(level)}
         </span>
         {done ? (
           <StatusBadge tone="done">

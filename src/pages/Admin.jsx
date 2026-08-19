@@ -44,7 +44,7 @@ function PasswordGate({ onOk }) {
       <form onSubmit={submit} className="w-full max-w-sm animate-fade-in space-y-4 text-center">
         <Crown className="mx-auto h-10 w-10 text-gold" aria-hidden="true" />
         <h1 className="font-display font-extrabold text-3xl">Painel da aniversariante</h1>
-        <p className="text-sm text-petroleum/60">The One With the Birthday Girl. Só a Larissa passa daqui. 👑</p>
+        <p className="text-sm text-petroleum/60">The One With the Birthday Girl. Só a Larissa passa daqui.</p>
         <input
           type="password"
           className="input text-center"
@@ -221,7 +221,7 @@ function Dashboard() {
                   <p className="truncate font-medium">{g.name}</p>
                   <p className="text-xs text-petroleum/50">
                     {g.passes_used + g.passes_18_used} passes usados
-                    {g.accepted_18plus && ' · 18+ 🔥'}
+                    {g.accepted_18plus && ' · 18+'}
                   </p>
                 </div>
                 <span className="badge bg-tiffany-soft text-petroleum">

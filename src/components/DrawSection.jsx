@@ -99,7 +99,7 @@ export default function DrawSection({
           <span className={`text-xs ${dark ? 'text-cream/60' : 'text-petroleum/55'}`}>
             {passesLeft > 0
               ? `${passesLeft} ${passesLeft === 1 ? 'passe restante' : 'passes restantes'}`
-              : 'Sem passes — essa você encara 😄'}
+              : 'Sem passes — essa você encara'}
           </span>
           <button
             className="btn-ghost !py-2 text-xs"
@@ -125,7 +125,7 @@ export default function DrawSection({
         <Sparkles className={`mx-auto h-8 w-8 ${dark ? 'text-pink' : 'text-gold'}`} />
         <p className="mt-3 font-display font-extrabold text-xl">Você zerou essa categoria!</p>
         <p className={`mt-1 text-sm ${dark ? 'text-cream/70' : 'text-petroleum/60'}`}>
-          Não sobrou nenhuma missão nova por aqui. Lenda. 👑
+          Não sobrou nenhuma missão nova por aqui. Lenda.
         </p>
       </div>
     )
@@ -138,7 +138,7 @@ export default function DrawSection({
         onClick={handleDraw}
       >
         <Dices className="h-6 w-6" />
-        {kind === 'adult' ? 'Sortear missão 18+ 🔞' : 'Sortear minha missão 🎲'}
+        {kind === 'adult' ? 'Sortear missão 18+' : 'Sortear minha missão'}
       </button>
       <p className={`text-xs ${dark ? 'text-cream/60' : 'text-petroleum/50'}`}>
         {passesLeft} de {MAX_PASSES} passes disponíveis

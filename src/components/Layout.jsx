@@ -17,7 +17,7 @@ export default function Layout({ children }) {
       <header className="sticky top-0 z-30 border-b border-gold/25 bg-cream/85 backdrop-blur-md">
         <div className="mx-auto flex max-w-3xl items-center justify-between gap-3 px-4 py-3">
           <div className="flex items-center gap-3">
-            <img src="/brand/l30.svg" alt="" className="h-9 w-9 object-contain" aria-hidden="true" />
+            <img src="/brand/moldura.svg" alt="" className="h-9 w-14 object-contain" aria-hidden="true" />
             <div className="leading-tight">
               <p className="font-display font-extrabold text-xl">Missão 30</p>
               <p className="text-xs text-petroleum/60">The One Where Laris Turns Thirty</p>
@@ -41,7 +41,7 @@ export default function Layout({ children }) {
         </div>
       </header>
 
-      <main key={pathname} className="mx-auto max-w-3xl animate-fade-in px-4 py-5 safe-bottom">
+      <main key={pathname} className="mx-auto max-w-3xl animate-fade-in px-4 pt-5 safe-bottom">
         {children}
       </main>
 

@@ -177,14 +177,14 @@ export default function Home() {
               <Lock className="mx-auto h-10 w-10 text-pink" aria-hidden="true" />
               <h2 className="mt-4 font-display font-extrabold text-3xl">Missões 18+</h2>
               <p className="mt-2 font-display font-extrabold text-lg text-pink">The One After Vegas</p>
-              <p className="mt-1 text-cream/70">Disponível para os corajosos… 🔞</p>
+              <p className="mt-1 text-cream/70">Disponível para os corajosos…</p>
               <button className="btn-pink mt-6 w-full" onClick={() => setAskAdult(true)}>
                 Quero entrar
               </button>
             </div>
           ) : (
             <>
-              <h2 className="section-title">Área dos corajosos 🔞</h2>
+              <h2 className="section-title">Área dos corajosos</h2>
               <p className="-mt-2 text-sm text-petroleum/60">
                 Mesmas regras, clima diferente. Bom senso e consentimento sempre.
               </p>
@@ -211,7 +211,7 @@ export default function Home() {
       />
 
       <Modal open={askAdult} onClose={() => setAskAdult(false)} title="The One After Vegas" tone="dark">
-        <p className="text-cream/80">Você tem certeza? É só pra quem já tá no clima 🍹</p>
+        <p className="text-cream/80">Você tem certeza? É só pra quem já tá no clima.</p>
         <div className="mt-6 grid grid-cols-2 gap-3">
           <button className="btn-ghost !bg-white/10 !text-cream" onClick={() => setAskAdult(false)}>
             Deixa pra lá

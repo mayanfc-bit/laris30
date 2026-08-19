@@ -5,14 +5,14 @@ import { burst } from '../lib/confetti'
 import { ErrorNote, Modal, Spinner } from './ui'
 
 const CHEERS = [
-  'Missão cumprida! A Larissa agradece. 🎉',
-  'Registrado! Isso vai render história. ✨',
-  'Boa! Mais uma pra galeria da festa. 💫',
-  'Enviado! Você tá jogando bonito hoje. 🥂',
-  'PIVOT! 🛋️ Deu certo, tá salvo.',
-  'How you doin’? Missão registrada. 😏',
-  'Could this BE any more cumprida? 📸',
-  'Guardado no Central Perk da festa. ☕',
+  'Missão cumprida! A Larissa agradece.',
+  'Registrado! Isso vai render história.',
+  'Boa! Mais uma pra galeria da festa.',
+  'Enviado! Você tá jogando bonito hoje.',
+  'PIVOT! Deu certo, tá salvo.',
+  'How you doin’? Missão registrada.',
+  'Could this BE any more cumprida?',
+  'Guardado no Central Perk da festa.',
 ]
 
 export default function UploadModal({ open, onClose, guest, challenge, onDone }) {
