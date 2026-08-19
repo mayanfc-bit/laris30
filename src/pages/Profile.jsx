@@ -3,7 +3,7 @@ import { BadgeIcon } from '../components/Icons'
 import MediaTile, { isVideoUrl } from '../components/MediaTile'
 import { ConfigWarning, ErrorNote, FullPageLoader, Modal } from '../components/ui'
 import { useAuth } from '../context/AuthContext'
-import { MAX_PASSES, getGuestState } from '../lib/api'
+import { getGuestState } from '../lib/api'
 import { computeBadges } from '../lib/badges'
 
 export default function Profile() {
@@ -65,8 +65,8 @@ export default function Profile() {
           <Stat value={total} label={total === 1 ? 'missão' : 'missões'} />
           <Stat value={earned.length} label="conquistas" />
           <Stat
-            value={`${MAX_PASSES - (guest?.passes_used ?? 0)}`}
-            label="passes restantes"
+            value={(guest?.passes_used ?? 0) + (guest?.passes_18_used ?? 0)}
+            label="missões puladas"
           />
         </div>
         <div className="mt-4">

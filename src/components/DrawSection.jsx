@@ -1,8 +1,8 @@
 import { Dices, List, SkipForward, Sparkles } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
-import { MAX_PASSES, drawChallenge, passChallenge, pickChallenge } from '../lib/api'
+import { Link } from 'react-router-dom'
+import { drawChallenge, passChallenge } from '../lib/api'
 import ChallengeCard from './ChallengeCard'
-import ChallengeList from './ChallengeList'
 import { ErrorNote, Spinner } from './ui'
 
 /**
@@ -14,21 +14,17 @@ export default function DrawSection({
   guest,
   challenges,
   active,
-  statusById,
   onOpenUpload,
   onChanged,
 }) {
   const dark = kind === 'adult'
   const pool = challenges.filter((c) => c.type === kind)
-  const passesUsed = (kind === 'adult' ? guest?.passes_18_used : guest?.passes_used) ?? 0
-  const passesLeft = Math.max(0, MAX_PASSES - passesUsed)
 
   const [spinning, setSpinning] = useState(false)
   const [spinTitle, setSpinTitle] = useState('')
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState(null)
   const [exhausted, setExhausted] = useState(false)
-  const [listOpen, setListOpen] = useState(false)
   const timer = useRef(null)
 
   useEffect(() => () => clearInterval(timer.current), [])
@@ -63,15 +59,9 @@ export default function DrawSection({
   const handleDraw = () => spin(() => drawChallenge(guest.id, kind))
 
   const handlePass = () => {
-    if (passesLeft <= 0 || !active) return
+    if (!active) return
     setBusy(true)
     spin(() => passChallenge(guest.id, active.id, kind).finally(() => setBusy(false)))
-  }
-
-  /** Escolher da lista: só liberado quando não há missão em andamento. */
-  const handlePick = async (c) => {
-    await pickChallenge(guest.id, c.id, kind)
-    await onChanged?.()
   }
 
   /* ---------------- conteúdo, por estado ---------------- */
@@ -106,21 +96,16 @@ export default function DrawSection({
           onAction={() => onOpenUpload(active)}
           actionLabel="Cumpri! Enviar mídia"
         />
-        <div className="flex items-center justify-between gap-3">
-          <span className={`text-xs ${dark ? 'text-cream/60' : 'text-petroleum/55'}`}>
-            {passesLeft > 0
-              ? `${passesLeft} ${passesLeft === 1 ? 'passe restante' : 'passes restantes'}`
-              : 'Sem passes — essa você encara'}
-          </span>
-          <button
-            className="btn-ghost !py-2 text-xs"
-            onClick={handlePass}
-            disabled={passesLeft <= 0 || busy}
-          >
-            {busy ? <Spinner className="h-4 w-4" /> : <SkipForward className="h-4 w-4" />}
-            Passar para o próximo
-          </button>
-        </div>
+        <button
+          className={`btn w-full !py-3 text-sm ${
+            dark ? 'border border-cream/25 bg-white/5 text-cream hover:bg-white/10' : 'btn-ghost'
+          }`}
+          onClick={handlePass}
+          disabled={busy}
+        >
+          {busy ? <Spinner className="h-4 w-4" /> : <SkipForward className="h-4 w-4" />}
+          Passar para a próxima
+        </button>
       </>
     )
   } else if (exhausted || pool.length === 0) {
@@ -139,18 +124,13 @@ export default function DrawSection({
     )
   } else {
     conteudo = (
-      <div className="space-y-2 text-center">
-        <button
-          className={`w-full !py-6 text-base ${dark ? 'btn-pink' : 'btn-gold'}`}
-          onClick={handleDraw}
-        >
-          <Dices className="h-6 w-6" />
-          {kind === 'adult' ? 'Sortear missão 18+' : 'Sortear minha missão'}
-        </button>
-        <p className={`text-xs ${dark ? 'text-cream/60' : 'text-petroleum/50'}`}>
-          {passesLeft} de {MAX_PASSES} passes disponíveis
-        </p>
-      </div>
+      <button
+        className={`w-full !py-6 text-base ${dark ? 'btn-pink' : 'btn-gold'}`}
+        onClick={handleDraw}
+      >
+        <Dices className="h-6 w-6" />
+        {kind === 'adult' ? 'Sortear missão 18+' : 'Sortear minha missão'}
+      </button>
     )
   }
 
@@ -159,29 +139,19 @@ export default function DrawSection({
       {conteudo}
 
       {!spinning && (
-        <button
+        <Link
+          to={kind === 'adult' ? '/app/missoes?tipo=adult' : '/app/missoes'}
           className={`btn w-full !py-3 text-sm ${
             dark
               ? 'border border-cream/25 bg-white/5 text-cream hover:bg-white/10'
               : 'btn-ghost'
           }`}
-          onClick={() => setListOpen(true)}
         >
           <List className="h-4 w-4" /> Ver lista de missões
-        </button>
+        </Link>
       )}
 
       <ErrorNote>{error}</ErrorNote>
-
-      <ChallengeList
-        open={listOpen}
-        onClose={() => setListOpen(false)}
-        pool={pool}
-        statusById={statusById || new Map()}
-        canPick={!active}
-        dark={dark}
-        onPick={handlePick}
-      />
     </div>
   )
 }

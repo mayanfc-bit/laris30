@@ -1,4 +1,4 @@
-import { supabase, MEDIA_BUCKET, MAX_FILE_BYTES, MAX_PASSES } from './supabase'
+import { supabase, MEDIA_BUCKET, MAX_FILE_BYTES } from './supabase'
 
 /* ------------------------------------------------------------------ */
 /* Helpers                                                             */
@@ -149,8 +149,8 @@ export async function drawChallenge(guestId, kind = 'random') {
 
 /**
  * Escolhe um desafio específico da lista, em vez de sortear.
- * Só funciona quando não há nenhum ativo do mesmo tipo — senão daria pra
- * trocar de missão à vontade sem gastar passe.
+ * Só funciona quando não há nenhum ativo do mesmo tipo, para não existirem
+ * duas missões abertas ao mesmo tempo.
  * @param {'random'|'adult'} kind
  */
 export async function pickChallenge(guestId, challengeId, kind = 'random') {
@@ -191,9 +191,10 @@ export async function pickChallenge(guestId, challengeId, kind = 'random') {
 export async function passChallenge(guestId, challengeId, kind = 'random') {
   const db = requireClient()
   const guest = await getGuest(guestId)
+  // Passe é ilimitado. O contador continua sendo gravado só para o painel
+  // da aniversariante saber quantas missões cada um pulou.
   const field = kind === 'adult' ? 'passes_18_used' : 'passes_used'
   const used = guest?.[field] ?? 0
-  if (used >= MAX_PASSES) throw new Error('Seus passes acabaram! Esse aí você encara.')
 
   unwrap(
     await db
@@ -351,5 +352,3 @@ export async function getAdminData() {
     },
   }
 }
-
-export { MAX_PASSES }

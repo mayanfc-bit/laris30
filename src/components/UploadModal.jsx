@@ -85,6 +85,31 @@ export default function UploadModal({ open, onClose, guest, challenge, onDone })
       onClose={busy ? undefined : onClose}
       title={success ? 'Enviado!' : 'Enviar missão'}
       tone={adult ? 'dark' : 'light'}
+      footer={
+        success ? null : (
+          <div className="space-y-2">
+            {busy && (
+              <div className="h-1.5 w-full overflow-hidden rounded-full bg-petroleum/10">
+                <div
+                  className="h-full rounded-full bg-tiffany transition-all"
+                  style={{ width: `${progress}%` }}
+                />
+              </div>
+            )}
+            <button className="btn-gold w-full" onClick={submit} disabled={!file || busy}>
+              {busy ? (
+                <>
+                  <Spinner /> Enviando…
+                </>
+              ) : (
+                <>
+                  <Sparkles className="h-4 w-4" /> Enviar missão
+                </>
+              )}
+            </button>
+          </div>
+        )
+      }
     >
       {success ? (
         <div className="flex flex-col items-center gap-4 py-6 text-center animate-pop-in">
@@ -172,27 +197,6 @@ export default function UploadModal({ open, onClose, guest, challenge, onDone })
           </label>
 
           <ErrorNote>{error}</ErrorNote>
-
-          {busy && (
-            <div className="h-1.5 w-full overflow-hidden rounded-full bg-petroleum/10">
-              <div
-                className="h-full rounded-full bg-tiffany transition-all"
-                style={{ width: `${progress}%` }}
-              />
-            </div>
-          )}
-
-          <button className="btn-gold w-full" onClick={submit} disabled={!file || busy}>
-            {busy ? (
-              <>
-                <Spinner /> Enviando…
-              </>
-            ) : (
-              <>
-                <Sparkles className="h-4 w-4" /> Enviar missão
-              </>
-            )}
-          </button>
         </div>
       )}
     </Modal>

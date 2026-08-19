@@ -62,7 +62,7 @@ const RULES = [
   {
     id: 'semmedo',
     label: 'Sem medo',
-    hint: 'Não usou nenhum passe.',
+    hint: 'Nao pulou nenhuma missao.',
     test: ({ guest, completions }) =>
       completions.length >= 3 && (guest?.passes_used ?? 0) === 0,
   },

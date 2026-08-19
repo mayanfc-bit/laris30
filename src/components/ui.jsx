@@ -1,5 +1,6 @@
 import { AlertTriangle, Loader2, X } from 'lucide-react'
 import { useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import { isConfigured } from '../lib/supabase'
 
 export function Spinner({ className = 'h-5 w-5' }) {
@@ -48,7 +49,7 @@ export function ConfigWarning() {
   )
 }
 
-export function Modal({ open, onClose, title, children, tone = 'light' }) {
+export function Modal({ open, onClose, title, children, footer = null, tone = 'light' }) {
   useEffect(() => {
     if (!open) return
     const onKey = (e) => e.key === 'Escape' && onClose?.()
@@ -64,7 +65,10 @@ export function Modal({ open, onClose, title, children, tone = 'light' }) {
   if (!open) return null
   const dark = tone === 'dark'
 
-  return (
+  // Portal obrigatório: o <main> tem animate-fade-in, e o transform que a
+  // animação deixa aplicado faz dele o bloco de referência de qualquer
+  // filho position:fixed. Dentro dele o modal saía da tela no celular.
+  return createPortal(
     <div
       className="fixed inset-0 z-50 flex items-end justify-center bg-petroleum/50 p-0 backdrop-blur-sm sm:items-center sm:p-4"
       role="dialog"
@@ -72,14 +76,16 @@ export function Modal({ open, onClose, title, children, tone = 'light' }) {
       aria-label={title}
       onClick={(e) => e.target === e.currentTarget && onClose?.()}
     >
+      {/* Coluna flex: cabeçalho e rodapé fixos, miolo rolável. Sem isso o
+          botão de ação some abaixo da dobra no celular. */}
       <div
-        className={`max-h-[92dvh] w-full max-w-lg animate-pop-in overflow-y-auto rounded-t-3xl border p-5 sm:rounded-3xl ${
+        className={`flex max-h-[88dvh] w-full max-w-lg animate-pop-in flex-col rounded-t-3xl border sm:max-h-[85dvh] sm:rounded-3xl ${
           dark
             ? 'border-pink/40 bg-petroleum text-cream'
             : 'border-gold/40 bg-cream text-petroleum'
         }`}
       >
-        <div className="mb-3 flex items-start justify-between gap-4">
+        <div className="flex shrink-0 items-start justify-between gap-4 px-5 pb-3 pt-5">
           <h2 className={`font-display font-extrabold text-2xl ${dark ? 'text-cream' : ''}`}>
             {title}
           </h2>
@@ -93,9 +99,27 @@ export function Modal({ open, onClose, title, children, tone = 'light' }) {
             <X className="h-5 w-5" />
           </button>
         </div>
-        {children}
+
+        <div
+          className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5"
+          style={footer ? undefined : { paddingBottom: 'calc(1.25rem + env(safe-area-inset-bottom, 0px))' }}
+        >
+          {children}
+        </div>
+
+        {footer && (
+          <div
+            className={`shrink-0 border-t px-5 pt-3 ${
+              dark ? 'border-cream/15' : 'border-petroleum/10'
+            }`}
+            style={{ paddingBottom: 'calc(1rem + env(safe-area-inset-bottom, 0px))' }}
+          >
+            {footer}
+          </div>
+        )}
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }
 
