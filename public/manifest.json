@@ -1,0 +1,26 @@
+{
+  "name": "Missão 30 — O aniversário da Larissa",
+  "short_name": "Missão 30",
+  "description": "Desafios interativos para os convidados da festa de 30 anos da Larissa.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F8F4EE",
+  "theme_color": "#81D8D0",
+  "lang": "pt-BR",
+  "icons": [
+    {
+      "src": "/icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-maskable.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}

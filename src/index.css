@@ -1,0 +1,122 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --tiffany: #81d8d0;
+    --tiffany-light: #b9e8e3;
+    --tiffany-soft: #ddf4f1;
+    --gold: #c99a4a;
+    --pink: #e2336b;
+    --cream: #f8f4ee;
+    --petroleum: #145a63;
+  }
+
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    @apply bg-cream font-sans text-petroleum antialiased;
+    background-image: radial-gradient(
+        circle at 12% 8%,
+        rgba(129, 216, 208, 0.22),
+        transparent 42%
+      ),
+      radial-gradient(circle at 88% 92%, rgba(226, 51, 107, 0.12), transparent 45%);
+    background-attachment: fixed;
+    min-height: 100dvh;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-display;
+  }
+
+  /* Respeita quem prefere menos movimento. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  .card {
+    @apply rounded-2xl border border-gold/40 bg-white/80 p-4 shadow-card backdrop-blur-sm;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-medium
+           transition active:scale-[.97] disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .btn-primary {
+    @apply btn bg-tiffany text-petroleum shadow-card hover:bg-tiffany-light;
+  }
+
+  .btn-gold {
+    @apply btn bg-gold text-white shadow-card hover:brightness-110;
+  }
+
+  .btn-pink {
+    @apply btn bg-pink text-white shadow-card hover:brightness-110;
+  }
+
+  .btn-ghost {
+    @apply btn border border-petroleum/20 bg-white/70 text-petroleum hover:bg-white;
+  }
+
+  .input {
+    @apply w-full rounded-xl border border-petroleum/15 bg-white px-4 py-3 text-base
+           text-petroleum placeholder:text-petroleum/40
+           focus:border-tiffany focus:outline-none focus:ring-2 focus:ring-tiffany/40;
+  }
+
+  .badge {
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium;
+  }
+
+  .section-title {
+    @apply font-display text-2xl font-semibold text-petroleum;
+  }
+
+  .safe-bottom {
+    padding-bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+/* Grade estilo mosaico para a galeria. */
+.masonry {
+  column-count: 2;
+  column-gap: 0.75rem;
+}
+@media (min-width: 768px) {
+  .masonry {
+    column-count: 3;
+  }
+}
+@media (min-width: 1200px) {
+  .masonry {
+    column-count: 4;
+  }
+}
+.masonry > * {
+  break-inside: avoid;
+  margin-bottom: 0.75rem;
+}
+
+/* Esconde a barra de rolagem dos filtros horizontais. */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
