@@ -178,3 +178,33 @@ missao-30/
 ├── .env.example
 └── vercel.json
 ```
+
+---
+
+## 9. Scripts de apoio
+
+Todos em `scripts/`. Rode a partir da raiz do projeto.
+
+| Script | O que faz |
+|---|---|
+| `gerar-icones.ps1 -Origem "arte.png"` | Refaz os 5 ícones do PWA e a prévia de link a partir de uma imagem |
+| `gerar-pdf-desafios.py` | Lê o banco e gera o PDF com a lista de desafios |
+| `teste-de-carga.ps1` | Simula o pico da festa: uploads simultâneos e volume de registros |
+| `limpar-tudo.ps1` | Zera o app para o dia da festa (mantém os desafios) |
+
+### Zerar antes da festa
+
+```powershell
+# 1) confere o que seria apagado, sem apagar
+powershell -ExecutionPolicy Bypass -File scripts\limpar-tudo.ps1
+
+# 2) apaga de verdade
+powershell -ExecutionPolicy Bypass -File scripts\limpar-tudo.ps1 -Confirmar
+```
+
+Apaga convidados, envios, sorteios e todas as mídias do storage. **Mantém os 63
+desafios**, que são a configuração da festa. Não tem volta: as mídias não existem
+em nenhum outro lugar, então rode só quando tiver certeza.
+
+Os arquivos `.ps1` precisam estar salvos em **UTF-8 com BOM** — o PowerShell 5.1
+lê como ANSI se não houver BOM, e os acentos quebram o parsing.
