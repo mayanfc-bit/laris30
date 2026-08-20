@@ -1,4 +1,4 @@
-import { ArrowRight, Gift } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { useEffect } from 'react'
 import { Link, Navigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
@@ -43,11 +43,6 @@ export default function Welcome() {
 
         <p className="mx-auto mt-3 max-w-sm text-sm text-petroleum/55">
           Cumpra as missões, registre em foto ou vídeo, e tudo vira uma galeria coletiva da festa.
-        </p>
-
-        <p className="mx-auto mt-4 flex max-w-sm items-center justify-center gap-2 rounded-full border border-pink/40 bg-pink/5 px-4 py-2 text-sm text-petroleum">
-          <Gift className="h-4 w-4 shrink-0 text-pink" aria-hidden="true" />
-          Quem fizer mais pontos leva o mini flamingo
         </p>
 
         <Link to="/entrar" className="btn-gold mt-8 w-full text-base">

@@ -55,8 +55,8 @@ export default function Ranking() {
               O prêmio é o mini flamingo
             </h2>
             <p className="mt-1 text-sm text-petroleum/70">
-              O filhote do flamingo da piscina vai embora com quem terminar a noite em primeiro
-              lugar. Cumpra missões, some pontos e leve o bichinho pra casa.
+              O filhote do flamingo da piscina está por aí, em algum canto da festa. Procure que
+              você acha. No fim da noite ele vai embora com quem tiver mais pontos.
             </p>
           </div>
         </div>
