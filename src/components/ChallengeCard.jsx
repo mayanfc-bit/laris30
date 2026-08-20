@@ -1,12 +1,16 @@
-import { Check, Lock, Upload } from 'lucide-react'
+import { Check, Upload } from 'lucide-react'
 import { DifficultyMark, difficultyLabel } from './Icons'
 import { StatusBadge } from './ui'
 
+/**
+ * Card de um desafio.
+ * @param {boolean} destaque  versão grande, usada na missão sorteada em
+ *                            andamento — é o bloco principal da tela.
+ */
 export default function ChallengeCard({
   challenge,
   done = false,
-  locked = false,
-  dark = false,
+  destaque = false,
   actionLabel = 'Enviar foto/vídeo',
   onAction,
   children,
@@ -15,54 +19,48 @@ export default function ChallengeCard({
 
   return (
     <article
-      className={`rounded-2xl border p-4 shadow-card transition ${
-        dark
-          ? 'border-pink/45 bg-petroleum text-cream'
-          : done
-            ? 'border-emerald-300/70 bg-emerald-50/70'
-            : 'border-gold/45 bg-white/85'
-      }`}
+      className={`rounded-2xl border shadow-card transition ${
+        destaque ? 'flex min-h-[46dvh] flex-col rounded-3xl border-2 p-6' : 'p-4'
+      } ${done ? 'border-emerald-300/70 bg-emerald-50/70' : 'border-gold/45 bg-white/85'}`}
     >
       <div className="mb-2 flex items-center justify-between gap-3">
-        <span
-          className={`inline-flex items-center gap-1.5 text-xs font-medium ${
-            dark ? 'text-pink' : 'text-gold'
-          }`}
-        >
-          <DifficultyMark level={level} dim={dark} className="h-3.5 w-3.5" />
+        <span className="inline-flex items-center gap-1.5 text-xs font-medium text-gold">
+          <DifficultyMark level={level} className="h-3.5 w-3.5" />
           {difficultyLabel(level)}
         </span>
         {done ? (
           <StatusBadge tone="done">
             <Check className="h-3.5 w-3.5" /> Concluída
           </StatusBadge>
-        ) : locked ? (
-          <StatusBadge tone="locked">
-            <Lock className="h-3.5 w-3.5" /> Bloqueada
-          </StatusBadge>
         ) : (
-          <StatusBadge tone={dark ? 'pink' : 'active'}>Pendente</StatusBadge>
+          <StatusBadge tone="active">Pendente</StatusBadge>
         )}
       </div>
 
-      <h3 className={`font-display font-extrabold text-xl leading-snug ${dark ? 'text-cream' : 'text-petroleum'}`}>
-        {challenge?.title}
-      </h3>
+      <div className={destaque ? 'flex flex-1 flex-col justify-center py-4' : ''}>
+        <h3
+          className={`font-display font-extrabold leading-snug text-petroleum ${
+            destaque ? 'text-3xl' : 'text-xl'
+          }`}
+        >
+          {challenge?.title}
+        </h3>
 
-      {challenge?.description && (
-        <p className={`mt-1 text-sm ${dark ? 'text-cream/70' : 'text-petroleum/60'}`}>
-          {challenge.description}
-        </p>
-      )}
+        {challenge?.description && (
+          <p className={`mt-2 text-petroleum/60 ${destaque ? 'text-base' : 'text-sm'}`}>
+            {challenge.description}
+          </p>
+        )}
+      </div>
 
       {children}
 
-      {!done && !locked && onAction && (
+      {!done && onAction && (
         <button
-          className={`mt-4 w-full ${dark ? 'btn-pink' : 'btn-primary'}`}
+          className={`btn-primary w-full ${destaque ? 'mt-2 !py-4 text-base' : 'mt-4'}`}
           onClick={() => onAction(challenge)}
         >
-          <Upload className="h-4 w-4" /> {actionLabel}
+          <Upload className={destaque ? 'h-5 w-5' : 'h-4 w-4'} /> {actionLabel}
         </button>
       )}
     </article>

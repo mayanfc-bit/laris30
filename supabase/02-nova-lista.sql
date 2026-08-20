@@ -45,7 +45,7 @@ delete from public.drawn_challenges;
 delete from public.challenges;
 
 -- ---------------------------------------------------------------------
--- 4. Nova lista — 63 desafios (11 fixos, 52 sorteados)
+-- 4. Nova lista — 63 desafios (10 fixos, 53 sorteados)
 -- ---------------------------------------------------------------------
 insert into public.challenges (title, description, type, difficulty, sort_order) values
 
@@ -60,7 +60,6 @@ insert into public.challenges (title, description, type, difficulty, sort_order)
 ('Tire uma foto no lambe-lambe', 'Foto da foto. Meta.', 'fixed', 'easy', 8),
 ('Bata uma foto do momento exato em que a Larissa sopra a vela', 'Não pisca. Não perde.', 'fixed', 'easy', 9),
 ('Conte sua melhor ou mais engraçada lembrança com a Larissa', 'Se não tiver, invente uma.', 'fixed', 'medium', 10),
-('Grave 3 pessoas diferentes dizendo uma palavra só sobre a Larissa', 'Três palavras, um vídeo.', 'fixed', 'medium', 11),
 
 -- ---------- Sorteados ----------
 ('Tire uma selfie com alguém que você conheceu hoje', 'Amizade nova, foto nova.', 'random', 'easy', 20),
@@ -114,4 +113,5 @@ insert into public.challenges (title, description, type, difficulty, sort_order)
 ('Dance coladinho com a Larissa na roda de pagode e grave', 'Não tão coladinho assim, tô de olho. Ass: Mayan.', 'random', 'hard', 68),
 ('Diga no que a Larissa mais amadureceu nesses 30 anos', 'Você sabe que se pensar bem vai conseguir encontrar algo...', 'random', 'medium', 69),
 ('Conte qual a coisa mais legal que você já viu a Larissa fazendo', 'Por você ou por outra pessoa. Deve ter existido algo.', 'random', 'medium', 70),
-('Grave alguém bêbado', 'Pode ser qualquer um, inclusive a aniversariante.', 'random', 'easy', 71);
+('Grave alguém bêbado', 'Pode ser qualquer um, inclusive a aniversariante.', 'random', 'easy', 71),
+('Grave 3 pessoas diferentes dizendo uma palavra só sobre a Larissa', 'Três palavras, um vídeo.', 'random', 'medium', 72);

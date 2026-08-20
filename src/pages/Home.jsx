@@ -160,10 +160,8 @@ export default function Home() {
       {/* ---------------- Missões sorteadas ---------------- */}
       {tab === 'random' && derived && (
         <section className="space-y-3 animate-fade-in">
-          <h2 className="section-title">Sua missão sorteada</h2>
-          <p className="-mt-2 text-sm text-petroleum/60">
-            Cumpra, envie o registro e sorteie a próxima. Nenhum desafio se repete pra você.
-          </p>
+          {/* Sem título nem texto de apoio: o bloco do sorteio é o principal
+              da tela e precisa aparecer inteiro sem rolar. */}
           <DrawSection
             kind="random"
             guest={guest}

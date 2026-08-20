@@ -6,7 +6,6 @@ import Admin from './pages/Admin'
 import Gallery from './pages/Gallery'
 import Home from './pages/Home'
 import Login from './pages/Login'
-import Missions from './pages/Missions'
 import Profile from './pages/Profile'
 import Welcome from './pages/Welcome'
 
@@ -28,14 +27,6 @@ export default function App() {
         element={
           <Guarded>
             <Home />
-          </Guarded>
-        }
-      />
-      <Route
-        path="/app/missoes"
-        element={
-          <Guarded>
-            <Missions />
           </Guarded>
         }
       />
