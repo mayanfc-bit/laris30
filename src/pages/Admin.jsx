@@ -4,6 +4,7 @@ import {
   Download,
   Images,
   RefreshCw,
+  Sparkles,
   Trophy,
   Users,
 } from 'lucide-react'
@@ -220,7 +221,8 @@ function Dashboard() {
                 <div className="min-w-0">
                   <p className="truncate font-medium">{g.name}</p>
                   <p className="text-xs text-petroleum/50">
-                    {g.passes_used + g.passes_18_used} missões puladas
+                    {g.passes_used + g.passes_18_used}{' '}
+                    {g.passes_used + g.passes_18_used === 1 ? 'missão pulada' : 'missões puladas'}
                   </p>
                 </div>
                 <span className="badge bg-tiffany-soft text-petroleum">
