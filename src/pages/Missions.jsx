@@ -21,7 +21,7 @@ export default function Missions() {
   const { guest } = useAuth()
   const navigate = useNavigate()
   const [params] = useSearchParams()
-  const kind = params.get('tipo') === 'adult' ? 'adult' : 'random'
+  const kind = 'random'
 
   const [state, setState] = useState(null)
   const [filter, setFilter] = useState('all')
@@ -85,8 +85,6 @@ export default function Missions() {
 
   if (!state && !error) return <FullPageLoader label="Carregando as missões…" />
 
-  const dark = kind === 'adult'
-
   return (
     <div className="space-y-4">
       <ConfigWarning />
@@ -100,9 +98,7 @@ export default function Missions() {
           <ArrowLeft className="h-5 w-5" />
         </Link>
         <div className="min-w-0">
-          <h1 className="section-title">
-            {dark ? 'Lista 18+' : 'Lista de missões'}
-          </h1>
+          <h1 className="section-title">Lista de missões</h1>
           <p className="text-sm text-petroleum/60">
             {dados?.feitas ?? 0} de {dados?.pool.length ?? 0} concluídas
           </p>

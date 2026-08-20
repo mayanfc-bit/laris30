@@ -1,17 +1,16 @@
-import { BookHeart, Check, Dices, Lock, Pin } from 'lucide-react'
+import { BookHeart, Check, Dices, Pin, PlusCircle } from 'lucide-react'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import ChallengeCard from '../components/ChallengeCard'
 import DrawSection from '../components/DrawSection'
 import UploadModal from '../components/UploadModal'
 import { ConfigWarning, ErrorNote, FullPageLoader, Modal, Spinner } from '../components/ui'
 import { useAuth } from '../context/AuthContext'
-import { acceptAdultSection, completeChallenge, getGuestState } from '../lib/api'
+import { completeChallenge, getGuestState } from '../lib/api'
 import { burst } from '../lib/confetti'
 
 const TABS = [
   { id: 'fixed', label: 'Fixas', icon: Pin },
   { id: 'random', label: 'Sorteadas', icon: Dices },
-  { id: 'adult', label: '18+', icon: Lock },
 ]
 
 export default function Home() {
@@ -20,7 +19,7 @@ export default function Home() {
   const [state, setState] = useState(null)
   const [error, setError] = useState(null)
   const [uploadFor, setUploadFor] = useState(null)
-  const [askAdult, setAskAdult] = useState(false)
+  const [livreAberto, setLivreAberto] = useState(false)
   const [manualFor, setManualFor] = useState(null)
   const [manualBusy, setManualBusy] = useState(false)
 
@@ -66,7 +65,6 @@ export default function Home() {
       fixed,
       fixedDone: fixed.length > 0 && fixed.every((c) => doneIds.has(c.id)),
       activeRandom: activeOf('random'),
-      activeAdult: activeOf('adult'),
       total: completions.length,
     }
   }, [state])
@@ -79,13 +77,6 @@ export default function Home() {
     if (derived.fixedDone) setTab('random')
     setTabDefinida(true)
   }, [derived, tabDefinida])
-
-  async function confirmAdult() {
-    const updated = await acceptAdultSection(guest.id)
-    setGuest(updated)
-    setAskAdult(false)
-    await load()
-  }
 
   async function markManual() {
     if (!manualFor || manualBusy) return
@@ -107,8 +98,6 @@ export default function Home() {
   }
 
   if (!state && !error) return <FullPageLoader label="Carregando suas missões…" />
-
-  const adultUnlocked = Boolean(guest?.accepted_18plus)
 
   return (
     <div className="space-y-5">
@@ -136,9 +125,7 @@ export default function Home() {
             onClick={() => setTab(id)}
             className={`btn shrink-0 !px-4 !py-2 text-sm ${
               tab === id
-                ? id === 'adult'
-                  ? 'bg-petroleum text-cream'
-                  : 'bg-tiffany text-petroleum'
+                ? 'bg-tiffany text-petroleum'
                 : 'border border-petroleum/15 bg-white/70 text-petroleum/70'
             }`}
           >
@@ -152,7 +139,7 @@ export default function Home() {
         <section className="space-y-3 animate-fade-in">
           <h2 className="section-title">Missões de todo mundo</h2>
           <p className="-mt-2 text-sm text-petroleum/60">
-            Essas três valem para todos os convidados, a noite inteira.
+            Valem para todos os convidados, a noite inteira.
           </p>
           {derived.fixed.map((c) => {
             const isManual = c.title.toLowerCase().includes('livrinho')
@@ -189,38 +176,17 @@ export default function Home() {
         </section>
       )}
 
-      {/* ---------------- Missões 18+ ---------------- */}
-      {tab === 'adult' && derived && (
-        <section className="space-y-3 animate-fade-in">
-          {!adultUnlocked ? (
-            <div className="rounded-2xl border border-pink/40 bg-petroleum p-8 text-center text-cream shadow-card">
-              <Lock className="mx-auto h-10 w-10 text-pink" aria-hidden="true" />
-              <h2 className="mt-4 font-display font-extrabold text-3xl">Missões 18+</h2>
-              <p className="mt-2 font-display font-extrabold text-lg text-pink">The One After Vegas</p>
-              <p className="mt-1 text-cream/70">Disponível para os corajosos…</p>
-              <button className="btn-pink mt-6 w-full" onClick={() => setAskAdult(true)}>
-                Quero entrar
-              </button>
-            </div>
-          ) : (
-            <>
-              <h2 className="section-title">Área dos corajosos</h2>
-              <p className="-mt-2 text-sm text-petroleum/60">
-                Mesmas regras, clima diferente. Bom senso e consentimento sempre.
-              </p>
-              <DrawSection
-                kind="adult"
-                guest={guest}
-                challenges={state.challenges}
-                active={derived.activeAdult}
-                statusById={derived.statusById}
-                onOpenUpload={setUploadFor}
-                onChanged={load}
-              />
-            </>
-          )}
-        </section>
-      )}
+      {/* ---------------- Desafio livre ---------------- */}
+      <section className="animate-fade-in rounded-2xl border border-dashed border-gold/60 bg-white/60 p-4 text-center">
+        <PlusCircle className="mx-auto h-7 w-7 text-gold" aria-hidden="true" />
+        <h2 className="mt-2 font-display font-extrabold text-xl">Rolou algo fora da lista?</h2>
+        <p className="mt-1 text-sm text-petroleum/60">
+          Registre do seu jeito. Vai para a galeria igual às outras missões.
+        </p>
+        <button className="btn-ghost mt-3 w-full" onClick={() => setLivreAberto(true)}>
+          <PlusCircle className="h-4 w-4" /> Criar meu desafio
+        </button>
+      </section>
 
       {/* ---------------- Modais ---------------- */}
       <UploadModal
@@ -231,17 +197,14 @@ export default function Home() {
         onDone={load}
       />
 
-      <Modal open={askAdult} onClose={() => setAskAdult(false)} title="The One After Vegas" tone="dark">
-        <p className="text-cream/80">Você tem certeza? É só pra quem já tá no clima.</p>
-        <div className="mt-6 grid grid-cols-2 gap-3">
-          <button className="btn-ghost !bg-white/10 !text-cream" onClick={() => setAskAdult(false)}>
-            Deixa pra lá
-          </button>
-          <button className="btn-pink" onClick={confirmAdult}>
-            Sim, tô dentro
-          </button>
-        </div>
-      </Modal>
+      <UploadModal
+        open={livreAberto}
+        onClose={() => setLivreAberto(false)}
+        guest={guest}
+        challenge={null}
+        livre
+        onDone={load}
+      />
 
       <Modal
         open={Boolean(manualFor)}

@@ -179,7 +179,7 @@ function Dashboard() {
         <Kpi icon={Users} value={t?.guests ?? 0} label="convidados" />
         <Kpi icon={Trophy} value={t?.completions ?? 0} label="missões concluídas" />
         <Kpi icon={Images} value={t?.media ?? 0} label="fotos e vídeos" />
-        <Kpi icon={Crown} value={t?.adultAccepted ?? 0} label="entraram no 18+" />
+        <Kpi icon={Sparkles} value={t?.livres ?? 0} label="desafios livres" />
       </section>
 
       <section className="card">
@@ -220,8 +220,7 @@ function Dashboard() {
                 <div className="min-w-0">
                   <p className="truncate font-medium">{g.name}</p>
                   <p className="text-xs text-petroleum/50">
-                    {g.passes_used + g.passes_18_used} passes usados
-                    {g.accepted_18plus && ' · 18+'}
+                    {g.passes_used + g.passes_18_used} missões puladas
                   </p>
                 </div>
                 <span className="badge bg-tiffany-soft text-petroleum">

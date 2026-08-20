@@ -8,7 +8,7 @@ const FILTERS = [
   { id: 'all', label: 'Todos' },
   { id: 'fixed', label: 'Fixas' },
   { id: 'random', label: 'Sorteadas' },
-  { id: 'adult', label: '18+' },
+  { id: 'livre', label: 'Livres' },
 ]
 
 export default function Gallery() {
@@ -33,7 +33,11 @@ export default function Gallery() {
 
   const shown = useMemo(
     () =>
-      (items || []).filter((i) => filter === 'all' || i.challenges?.type === filter),
+      (items || []).filter((i) => {
+        if (filter === 'all') return true
+        if (filter === 'livre') return !i.challenge_id
+        return i.challenges?.type === filter
+      }),
     [items, filter]
   )
 
@@ -57,9 +61,7 @@ export default function Gallery() {
             onClick={() => setFilter(f.id)}
             className={`btn shrink-0 !px-4 !py-2 text-sm ${
               filter === f.id
-                ? f.id === 'adult'
-                  ? 'bg-petroleum text-cream'
-                  : 'bg-tiffany text-petroleum'
+                ? 'bg-tiffany text-petroleum'
                 : 'border border-petroleum/15 bg-white/70 text-petroleum/70'
             }`}
           >

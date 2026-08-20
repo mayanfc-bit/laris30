@@ -15,8 +15,9 @@ const CHEERS = [
   'Guardado no Central Perk da festa.',
 ]
 
-export default function UploadModal({ open, onClose, guest, challenge, onDone }) {
+export default function UploadModal({ open, onClose, guest, challenge, livre = false, onDone }) {
   const [file, setFile] = useState(null)
+  const [titulo, setTitulo] = useState('')
   const [preview, setPreview] = useState(null)
   const [caption, setCaption] = useState('')
   const [busy, setBusy] = useState(false)
@@ -26,13 +27,14 @@ export default function UploadModal({ open, onClose, guest, challenge, onDone })
   const cameraRef = useRef(null)
   const fileRef = useRef(null)
 
-  const adult = challenge?.type === 'adult'
+  const adult = false
 
   // Limpa tudo a cada abertura e revoga a URL do preview ao sair.
   useEffect(() => {
     if (open) {
       setFile(null)
       setPreview(null)
+      setTitulo('')
       setCaption('')
       setBusy(false)
       setProgress(0)
@@ -61,7 +63,8 @@ export default function UploadModal({ open, onClose, guest, challenge, onDone })
       const mediaUrl = await uploadMedia(guest.id, file, setProgress)
       await completeChallenge({
         guestId: guest.id,
-        challengeId: challenge.id,
+        challengeId: livre ? null : challenge.id,
+        customTitle: livre ? titulo : null,
         mediaUrl,
         caption,
       })
@@ -83,7 +86,7 @@ export default function UploadModal({ open, onClose, guest, challenge, onDone })
     <Modal
       open={open}
       onClose={busy ? undefined : onClose}
-      title={success ? 'Enviado!' : 'Enviar missão'}
+      title={success ? 'Enviado!' : livre ? 'Criar meu desafio' : 'Enviar missão'}
       tone={adult ? 'dark' : 'light'}
       footer={
         success ? null : (
@@ -96,7 +99,11 @@ export default function UploadModal({ open, onClose, guest, challenge, onDone })
                 />
               </div>
             )}
-            <button className="btn-gold w-full" onClick={submit} disabled={!file || busy}>
+            <button
+              className="btn-gold w-full"
+              onClick={submit}
+              disabled={!file || busy || (livre && !titulo.trim())}
+            >
               {busy ? (
                 <>
                   <Spinner /> Enviando…
@@ -115,18 +122,31 @@ export default function UploadModal({ open, onClose, guest, challenge, onDone })
         <div className="flex flex-col items-center gap-4 py-6 text-center animate-pop-in">
           <PartyPopper className="h-14 w-14 text-gold" aria-hidden="true" />
           <p className="font-display font-extrabold text-2xl">{success}</p>
-          <p className={`text-sm ${adult ? 'text-cream/70' : 'text-petroleum/60'}`}>
-            {challenge?.title}
-          </p>
+          <p className="text-sm text-petroleum/60">{livre ? titulo : challenge?.title}</p>
           <button className="btn-primary mt-2 w-full" onClick={onClose}>
             Voltar para as missões
           </button>
         </div>
       ) : (
         <div className="space-y-4">
-          <p className={`text-sm ${adult ? 'text-cream/80' : 'text-petroleum/70'}`}>
-            {challenge?.title}
-          </p>
+          {livre ? (
+            <label className="block">
+              <span className="mb-1 block text-sm text-petroleum/70">
+                O que você quer registrar?
+              </span>
+              <input
+                className="input"
+                maxLength={90}
+                placeholder="Ex: A dança do meu tio na pista"
+                value={titulo}
+                onChange={(e) => setTitulo(e.target.value)}
+                disabled={busy}
+                autoFocus
+              />
+            </label>
+          ) : (
+            <p className="text-sm text-petroleum/70">{challenge?.title}</p>
+          )}
 
           {preview ? (
             <div className="relative overflow-hidden rounded-2xl border border-gold/40 bg-black/5">

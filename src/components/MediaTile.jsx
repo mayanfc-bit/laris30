@@ -8,13 +8,13 @@ export default function MediaTile({ item, showAuthor = true, onOpen }) {
   const url = item.media_url
   const video = isVideoUrl(url)
   const author = item.guests?.name
-  const title = item.challenges?.title
-  const adult = item.challenges?.type === 'adult'
+  const title = item.challenges?.title || item.custom_title
+  const livre = !item.challenge_id
 
   return (
     <figure
       className={`overflow-hidden rounded-2xl border bg-white/85 shadow-card ${
-        adult ? 'border-pink/45' : 'border-gold/35'
+        livre ? 'border-tiffany/60' : 'border-gold/35'
       }`}
     >
       {url ? (
@@ -48,7 +48,7 @@ export default function MediaTile({ item, showAuthor = true, onOpen }) {
         )}
         {title && <p className="text-xs leading-snug text-petroleum/60">{title}</p>}
         {item.caption && <p className="text-sm text-petroleum/80">{item.caption}</p>}
-        {adult && <span className="badge bg-pink/10 text-pink">18+</span>}
+        {livre && <span className="badge bg-tiffany-soft text-petroleum">Desafio livre</span>}
       </figcaption>
     </figure>
   )

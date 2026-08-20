@@ -43,7 +43,7 @@ export default function Profile() {
     const byId = new Map(state.challenges.map((c) => [c.id, c]))
     return state.completions.map((c) => ({
       ...c,
-      challenges: byId.get(c.challenge_id),
+      challenges: c.challenge_id ? byId.get(c.challenge_id) : null,
       guests: { name: guest?.name },
     }))
   }, [state, guest?.name])

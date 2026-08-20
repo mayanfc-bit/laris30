@@ -17,7 +17,7 @@ export default function DrawSection({
   onOpenUpload,
   onChanged,
 }) {
-  const dark = kind === 'adult'
+  const dark = false
   const pool = challenges.filter((c) => c.type === kind)
 
   const [spinning, setSpinning] = useState(false)
@@ -129,7 +129,7 @@ export default function DrawSection({
         onClick={handleDraw}
       >
         <Dices className="h-6 w-6" />
-        {kind === 'adult' ? 'Sortear missão 18+' : 'Sortear minha missão'}
+        Sortear minha missão
       </button>
     )
   }
@@ -140,7 +140,7 @@ export default function DrawSection({
 
       {!spinning && (
         <Link
-          to={kind === 'adult' ? '/app/missoes?tipo=adult' : '/app/missoes'}
+          to="/app/missoes"
           className={`btn w-full !py-3 text-sm ${
             dark
               ? 'border border-cream/25 bg-white/5 text-cream hover:bg-white/10'

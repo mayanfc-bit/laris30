@@ -28,19 +28,6 @@ const RULES = [
       completions.some((c) => challengeById.get(c.challenge_id)?.title?.includes('espontânea')),
   },
   {
-    id: 'adulto',
-    label: 'Missão 18+ aceita',
-    hint: 'Entrou na área dos corajosos.',
-    test: ({ guest }) => Boolean(guest?.accepted_18plus),
-  },
-  {
-    id: 'picante',
-    label: 'Encarou o 18+',
-    hint: 'Completou uma missão adulta.',
-    test: ({ completions, challengeById }) =>
-      completions.some((c) => challengeById.get(c.challenge_id)?.type === 'adult'),
-  },
-  {
     id: 'trio',
     label: 'Trio de ouro',
     hint: 'Completou as 3 missões fixas.',

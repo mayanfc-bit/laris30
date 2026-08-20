@@ -2,9 +2,7 @@ import {
   Cake,
   Camera,
   Crown,
-  Flame,
   Footprints,
-  Martini,
   Medal,
   Mountain,
   NotebookPen,
@@ -55,35 +53,6 @@ export function DifficultyMark({ level = 'easy', className = 'h-4 w-4', dim = fa
   )
 }
 
-/** Selo "18+" desenhado, no lugar do emoji de proibido. */
-export function AdultMark({ className = 'h-5 w-9' }) {
-  return (
-    <svg viewBox="0 0 36 20" className={className} aria-hidden="true" focusable="false">
-      <rect
-        x="1"
-        y="1"
-        width="34"
-        height="18"
-        rx="9"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.6"
-      />
-      <text
-        x="18"
-        y="14.4"
-        textAnchor="middle"
-        fontSize="10.5"
-        fontWeight="800"
-        fontFamily="Manrope, system-ui, sans-serif"
-        fill="currentColor"
-      >
-        18+
-      </text>
-    </svg>
-  )
-}
-
 /* ------------------------------------------------------------------ */
 /* Ícones das conquistas                                               */
 /* ------------------------------------------------------------------ */
@@ -93,8 +62,6 @@ const BADGE_ICONS = {
   parabens: Cake,
   memorias: NotebookPen,
   paparazzi: Camera,
-  adulto: Flame,
-  picante: Martini,
   trio: Medal,
   maratona: Footprints,
   lenda: Crown,

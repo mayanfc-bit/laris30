@@ -275,21 +275,31 @@ export async function uploadMedia(guestId, file, onProgress) {
   return data.publicUrl
 }
 
-/** Registra a conclusão e fecha o sorteio correspondente, se houver. */
+/**
+ * Registra a conclusão e fecha o sorteio correspondente, se houver.
+ * Com challengeId null é um "desafio livre": vale o customTitle que a
+ * própria pessoa escreveu, e pode ter quantos ela quiser.
+ */
 export async function completeChallenge({
   guestId,
-  challengeId,
+  challengeId = null,
+  customTitle = null,
   mediaUrl = null,
   caption = null,
   isManual = false,
 }) {
   const db = requireClient()
 
+  const livre = !challengeId
+  const titulo = customTitle?.trim() || null
+  if (livre && !titulo) throw new Error('Dê um nome para o seu desafio.')
+
   const { data, error } = await db
     .from('completions')
     .insert({
       guest_id: guestId,
       challenge_id: challengeId,
+      custom_title: livre ? titulo : null,
       media_url: mediaUrl,
       caption: caption?.trim() || null,
       is_manual: isManual,
@@ -299,26 +309,16 @@ export async function completeChallenge({
 
   if (error && error.code !== '23505') throw error // 23505 = já concluída, tudo bem
 
-  await db
-    .from('drawn_challenges')
-    .update({ status: 'completed' })
-    .eq('guest_id', guestId)
-    .eq('challenge_id', challengeId)
-    .eq('status', 'active')
+  if (challengeId) {
+    await db
+      .from('drawn_challenges')
+      .update({ status: 'completed' })
+      .eq('guest_id', guestId)
+      .eq('challenge_id', challengeId)
+      .eq('status', 'active')
+  }
 
   return data
-}
-
-export async function acceptAdultSection(guestId) {
-  const db = requireClient()
-  return unwrap(
-    await db
-      .from('guests')
-      .update({ accepted_18plus: true })
-      .eq('id', guestId)
-      .select()
-      .single()
-  )
 }
 
 /* ------------------------------------------------------------------ */
@@ -378,7 +378,7 @@ export async function getAdminData() {
       guests: guests.length,
       completions: gallery.length,
       media: gallery.filter((g) => g.media_url).length,
-      adultAccepted: guests.filter((g) => g.accepted_18plus).length,
+      livres: gallery.filter((g) => !g.challenge_id).length,
     },
   }
 }
