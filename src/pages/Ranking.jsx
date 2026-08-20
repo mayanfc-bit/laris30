@@ -52,11 +52,11 @@ export default function Ranking() {
           <Gift className="mt-0.5 h-7 w-7 shrink-0 text-pink" aria-hidden="true" />
           <div>
             <h2 className="font-display font-extrabold text-xl text-petroleum">
-              O prêmio é o mini flamingo
+              Tem prêmio para o primeiro lugar
             </h2>
             <p className="mt-1 text-sm text-petroleum/70">
-              O filhote do flamingo da piscina está por aí, em algum canto da festa. Procure que
-              você acha. No fim da noite ele vai embora com quem tiver mais pontos.
+              Quem terminar a noite com mais pontos leva um prêmio pra casa. O que é fica em
+              segredo até a hora — mas ele já está aqui na festa, em algum lugar.
             </p>
           </div>
         </div>
