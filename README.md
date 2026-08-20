@@ -48,14 +48,14 @@ O script faz tudo de uma vez:
 
 | O que cria | Detalhe |
 |---|---|
-| Tabela `guests` | `id, name, name_key, created_at, passes_used, passes_18_used, accepted_18plus` |
+| Tabela `guests` | `id, name, name_key, created_at, passes_used, passes_18_used` |
 | Tabela `challenges` | `id, title, description, type, difficulty, sort_order` |
-| Tabela `completions` | `id, guest_id, challenge_id, media_url, caption, completed_at, is_manual` |
+| Tabela `completions` | `id, guest_id, challenge_id, custom_title, media_url, thumb_url, caption, completed_at, is_manual` |
 | Tabela `drawn_challenges` | `id, guest_id, challenge_id, drawn_at, status` |
 | Políticas RLS | leitura e escrita liberadas para `anon` (a festa é aberta, sem login real) |
 | Realtime | publicação ativada em `completions`, `guests` e `drawn_challenges` |
-| Bucket `party-media` | público, limite de 100 MB por arquivo, aceita imagem e vídeo |
-| Desafios | os 114 desafios já cadastrados (3 fixos, 99 sorteados, 12 adultos) |
+| Bucket `party-media` | público, limite de 200 MB por arquivo, aceita imagem e vídeo |
+| Desafios | os 63 desafios já cadastrados (10 fixos, 53 sorteados) |
 
 O script pode rodar de novo sem duplicar nada, com **uma exceção**: as 3 últimas linhas
 (o bloco *Realtime*) falham na segunda execução, porque o Postgres não deixa adicionar a mesma
@@ -111,19 +111,21 @@ por exemplo. É esse QR que vai nas mesas da festa.
 |---|---|
 | `/` | Boas-vindas, com confetes e o botão "Entrar na festa" |
 | `/entrar` | Cadastro só com o nome (recupera o perfil se o nome já existir) |
-| `/app` | Home do convidado: abas **Fixas**, **Sorteadas** e **18+** |
+| `/app` | Home do convidado: abas **Fixas** e **Sorteadas**, mais o "Criar meu desafio" |
+| `/app/ranking` | Classificação por pontos, atualizada em tempo real |
 | `/app/galeria` | Galeria coletiva em mosaico, com filtros e atualização em tempo real |
 | `/app/perfil` | Progresso, conquistas e os envios da pessoa |
 | `/admin` | Painel da aniversariante (senha `larissa30`) |
 
 ### Regras do jogo
 
-- **Missões fixas:** 3, iguais para todo mundo. A do livrinho das memórias é marcada manualmente,
+- **Missões fixas:** 10, iguais para todo mundo. A do livrinho das memórias é marcada manualmente,
   sem upload.
 - **Missões sorteadas:** um desafio ativo por vez. Ao enviar a mídia, libera o próximo sorteio.
-- **Passes:** 2 por pessoa nas sorteadas + 2 exclusivos no 18+. Ao passar, o próximo é sorteado na hora.
-- **Sem repetição:** um desafio já sorteado (mesmo que passado) nunca volta para a mesma pessoa.
-- **18+:** fica bloqueada até a pessoa confirmar no modal. Depois disso funciona igual, com visual escuro.
+- **Passes:** ilimitados. O contador continua sendo gravado, só para o painel.
+- **Sem repetição:** um desafio já concluído não volta para a mesma pessoa.
+- **Desafio livre:** a pessoa registra algo fora da lista, com título próprio. Quantos quiser.
+- **Pontos:** fácil 1, médio 2, difícil 3, livre 1. Só os 5 primeiros livres pontuam.
 - **Persistência:** o convidado é guardado no `localStorage` e revalidado no banco — fechar o app
   não perde nada.
 
@@ -134,7 +136,7 @@ por exemplo. É esse QR que vai nas mesas da festa.
 Em `/admin`, senha padrão `larissa30` (trocável pela env `VITE_ADMIN_PASSWORD`).
 A senha fica no frontend por simplicidade — é uma trava social, não segurança de verdade.
 
-Mostra total de convidados, missões concluídas, mídias enviadas, quantos toparam o 18+,
+Mostra total de convidados, missões concluídas, mídias enviadas, quantos desafios livres,
 o ranking de missões mais completadas, o progresso individual de cada convidado e a galeria
 completa. O botão **Baixar .zip** monta o pacote no próprio navegador, organizado em pastas
 por convidado. Com muitos vídeos isso demora — é preciso deixar a aba aberta.
@@ -170,11 +172,12 @@ missao-30/
 ├── src/
 │   ├── components/    # Layout, ChallengeCard, DrawSection, UploadModal, MediaTile, ui
 │   ├── context/       # AuthContext (login por nome)
-│   ├── lib/           # supabase, api, badges, confetti
-│   ├── pages/         # Welcome, Login, Home, Gallery, Profile, Admin
+│   ├── lib/           # supabase, api, badges, confetti, ranking, thumbnail
+│   ├── pages/         # Welcome, Login, Home, Ranking, Gallery, Profile, Admin
 │   ├── App.jsx
 │   └── main.jsx
-├── supabase/schema.sql
+├── scripts/           # icones, PDF, teste de carga, reset
+├── supabase/          # schema.sql + migracoes 02 e 03
 ├── .env.example
 └── vercel.json
 ```
