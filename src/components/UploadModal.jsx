@@ -1,6 +1,7 @@
 import { Camera, ImagePlus, PartyPopper, RotateCcw, Sparkles } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
-import { completeChallenge, uploadMedia } from '../lib/api'
+import { completeChallenge, uploadMedia, uploadThumbnail } from '../lib/api'
+import { gerarMiniatura } from '../lib/thumbnail'
 import { burst } from '../lib/confetti'
 import { ErrorNote, Modal, Spinner } from './ui'
 
@@ -60,12 +61,17 @@ export default function UploadModal({ open, onClose, guest, challenge, livre = f
     setBusy(true)
     setError(null)
     try {
-      const mediaUrl = await uploadMedia(guest.id, file, setProgress)
+      // A miniatura sai antes: se falhar, o envio segue sem ela.
+      const mini = await gerarMiniatura(file)
+      const mediaUrl = await uploadMedia(guest.id, file, (p) => setProgress(p * 0.9))
+      const thumbUrl = await uploadThumbnail(guest.id, mini)
+      setProgress(100)
       await completeChallenge({
         guestId: guest.id,
         challengeId: livre ? null : challenge.id,
         customTitle: livre ? titulo : null,
         mediaUrl,
+        thumbUrl,
         caption,
       })
       burst()
@@ -198,7 +204,7 @@ export default function UploadModal({ open, onClose, guest, challenge, livre = f
 
           {file && (
             <p className={`text-xs ${adult ? 'text-cream/60' : 'text-petroleum/50'}`}>
-              {isVideo ? 'Vídeo' : 'Foto'} • {sizeMb} MB {Number(sizeMb) > 100 && '(acima do limite!)'}
+              {isVideo ? 'Vídeo' : 'Foto'} • {sizeMb} MB {Number(sizeMb) > 200 && '(acima do limite!)'}
             </p>
           )}
 

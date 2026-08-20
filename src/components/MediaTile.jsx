@@ -6,6 +6,7 @@ export const isVideoUrl = (url) => Boolean(url) && VIDEO_EXT.test(url)
 /** Card de uma conclusão na galeria / no perfil. */
 export default function MediaTile({ item, showAuthor = true, onOpen }) {
   const url = item.media_url
+  const thumb = item.thumb_url
   const video = isVideoUrl(url)
   const author = item.guests?.name
   const title = item.challenges?.title || item.custom_title
@@ -24,15 +25,21 @@ export default function MediaTile({ item, showAuthor = true, onOpen }) {
           className="relative block w-full"
           aria-label={`Abrir mídia de ${author || 'convidado'}`}
         >
-          {video ? (
-            <>
-              <video src={url} className="w-full" preload="metadata" muted playsInline />
-              <span className="absolute inset-0 flex items-center justify-center bg-petroleum/25">
-                <PlayCircle className="h-12 w-12 text-white/90" aria-hidden="true" />
-              </span>
-            </>
+          {/* A galeria mostra sempre a miniatura. O arquivo original só é
+              baixado quando a pessoa toca e abre. Sem miniatura (envios
+              antigos), cai no original mesmo. */}
+          {thumb ? (
+            <img src={thumb} alt={title || 'Missão'} loading="lazy" className="w-full" />
+          ) : video ? (
+            <div className="flex aspect-[4/5] w-full items-center justify-center bg-petroleum/10" />
           ) : (
             <img src={url} alt={title || 'Missão'} loading="lazy" className="w-full" />
+          )}
+
+          {video && (
+            <span className="absolute inset-0 flex items-center justify-center bg-petroleum/25">
+              <PlayCircle className="h-12 w-12 text-white/90" aria-hidden="true" />
+            </span>
           )}
         </button>
       ) : (

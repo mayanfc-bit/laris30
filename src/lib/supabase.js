@@ -21,5 +21,5 @@ export const supabase = isConfigured
   : null
 
 export const MEDIA_BUCKET = 'party-media'
-export const MAX_FILE_BYTES = 100 * 1024 * 1024 // 100 MB
+export const MAX_FILE_BYTES = 200 * 1024 * 1024 // 200 MB
 // Passes sao ilimitados: nao existe mais limite para pular missao.

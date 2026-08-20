@@ -250,13 +250,31 @@ function extOf(file) {
   return (file.type?.split('/')[1] || 'bin').toLowerCase()
 }
 
+/**
+ * Sobe a miniatura gerada no navegador. Devolve a URL ou null.
+ * Nunca lança: sem miniatura o app usa o arquivo original.
+ */
+export async function uploadThumbnail(guestId, blob) {
+  if (!blob || !supabase) return null
+  try {
+    const path = `${guestId}/thumbs/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.jpg`
+    const { error } = await supabase.storage
+      .from(MEDIA_BUCKET)
+      .upload(path, blob, { cacheControl: '3600', upsert: false, contentType: 'image/jpeg' })
+    if (error) return null
+    return supabase.storage.from(MEDIA_BUCKET).getPublicUrl(path).data.publicUrl
+  } catch {
+    return null
+  }
+}
+
 /** Sobe a mídia para o bucket público e devolve a URL final. */
 export async function uploadMedia(guestId, file, onProgress) {
   const db = requireClient()
   if (!file) throw new Error('Escolha uma foto ou vídeo.')
   if (file.size > MAX_FILE_BYTES) {
     throw new Error(
-      `Arquivo muito grande (${(file.size / 1024 / 1024).toFixed(0)} MB). O limite é 100 MB.`
+      `Arquivo muito grande (${(file.size / 1024 / 1024).toFixed(0)} MB). O limite é 200 MB.`
     )
   }
   const isMedia = file.type.startsWith('image/') || file.type.startsWith('video/')
@@ -285,6 +303,7 @@ export async function completeChallenge({
   challengeId = null,
   customTitle = null,
   mediaUrl = null,
+  thumbUrl = null,
   caption = null,
   isManual = false,
 }) {
@@ -301,6 +320,7 @@ export async function completeChallenge({
       challenge_id: challengeId,
       custom_title: livre ? titulo : null,
       media_url: mediaUrl,
+      thumb_url: thumbUrl,
       caption: caption?.trim() || null,
       is_manual: isManual,
     })
