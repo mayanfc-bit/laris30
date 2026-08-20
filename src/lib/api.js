@@ -285,7 +285,22 @@ export async function uploadMedia(guestId, file, onProgress) {
   const { error } = await db.storage
     .from(MEDIA_BUCKET)
     .upload(path, file, { cacheControl: '3600', upsert: false, contentType: file.type })
-  if (error) throw error
+
+  if (error) {
+    // O Supabase tem um teto global de upload no projeto, separado do limite
+    // do bucket. Se ele estiver abaixo do nosso, o erro vem em inglês e sem
+    // contexto — vale traduzir para o convidado entender no meio da festa.
+    const grande =
+      error.statusCode === '413' ||
+      /entity ?too ?large|maximum allowed size|payload too large/i.test(error.message || '')
+    if (grande) {
+      throw new Error(
+        `O servidor recusou: ${(file.size / 1024 / 1024).toFixed(0)} MB passou do limite. ` +
+          'Grave um vídeo mais curto e tente de novo.'
+      )
+    }
+    throw error
+  }
   onProgress?.(90)
 
   const { data } = db.storage.from(MEDIA_BUCKET).getPublicUrl(path)
