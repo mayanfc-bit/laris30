@@ -382,6 +382,16 @@ export function subscribeCompletions(onChange) {
 }
 
 /* ------------------------------------------------------------------ */
+/* Ranking                                                             */
+/* ------------------------------------------------------------------ */
+
+/** Dados crus da classificação: quem entrou na festa e tudo que foi enviado. */
+export async function getRankingData() {
+  const [guests, gallery] = await Promise.all([listGuests(), listGallery()])
+  return { guests, gallery }
+}
+
+/* ------------------------------------------------------------------ */
 /* Painel da aniversariante                                            */
 /* ------------------------------------------------------------------ */
 

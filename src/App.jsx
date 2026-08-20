@@ -7,6 +7,7 @@ import Gallery from './pages/Gallery'
 import Home from './pages/Home'
 import Login from './pages/Login'
 import Profile from './pages/Profile'
+import Ranking from './pages/Ranking'
 import Welcome from './pages/Welcome'
 
 /** Rotas do convidado: exigem um nome cadastrado. */
@@ -27,6 +28,14 @@ export default function App() {
         element={
           <Guarded>
             <Home />
+          </Guarded>
+        }
+      />
+      <Route
+        path="/app/ranking"
+        element={
+          <Guarded>
+            <Ranking />
           </Guarded>
         }
       />

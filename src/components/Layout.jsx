@@ -1,9 +1,10 @@
-import { Home, Images, LogOut, User } from 'lucide-react'
+import { Home, Images, LogOut, Trophy, User } from 'lucide-react'
 import { NavLink, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
 const TABS = [
   { to: '/app', label: 'Missões', icon: Home, end: true },
+  { to: '/app/ranking', label: 'Ranking', icon: Trophy },
   { to: '/app/galeria', label: 'Galeria', icon: Images },
   { to: '/app/perfil', label: 'Perfil', icon: User },
 ]
