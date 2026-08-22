@@ -7,15 +7,8 @@
 
 export const PONTOS_POR_NIVEL = { easy: 1, medium: 2, hard: 3, adult: 3 }
 
-/** Desafio livre vale 1 ponto. */
+/** Desafio livre vale 1 ponto, sem limite de quantos contam. */
 export const PONTOS_LIVRE = 1
-
-/**
- * Só os 5 primeiros desafios livres contam ponto.
- * Sem esse teto, bastaria subir 30 fotos aleatórias para ganhar o prêmio —
- * os livres continuam aparecendo na galeria e no perfil, só param de pontuar.
- */
-export const MAX_LIVRES_PONTUANDO = 5
 
 export const rotuloNivel = { easy: 'Fácil', medium: 'Médio', hard: 'Difícil', adult: 'Difícil' }
 
@@ -34,7 +27,6 @@ export function calcularRanking(guests = [], gallery = []) {
         pontos: 0,
         missoes: 0,
         livres: 0,
-        livresPontuados: 0,
         ultimoEnvio: null,
       },
     ])
@@ -57,10 +49,7 @@ export function calcularRanking(guests = [], gallery = []) {
       p.pontos += PONTOS_POR_NIVEL[item.challenges?.difficulty] ?? 1
     } else {
       p.livres += 1
-      if (p.livresPontuados < MAX_LIVRES_PONTUANDO) {
-        p.livresPontuados += 1
-        p.pontos += PONTOS_LIVRE
-      }
+      p.pontos += PONTOS_LIVRE
     }
   }
 

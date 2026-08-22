@@ -1,13 +1,13 @@
-import { Check, Circle } from 'lucide-react'
+import { Check, Circle, Upload } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { DifficultyMark, difficultyLabel } from './Icons'
 
 /**
- * Lista de todas as missões sorteadas, só para consulta.
- * Mostra o que a pessoa já cumpriu e o que ainda falta. Não dá para
- * escolher daqui — o caminho continua sendo o sorteio.
+ * Lista de todas as missões sorteadas.
+ * Mostra o que a pessoa já cumpriu e o que falta, e tocar numa missão
+ * ainda não feita abre direto o envio de foto ou vídeo.
  */
-export default function MissionChecklist({ pool = [], statusById = new Map() }) {
+export default function MissionChecklist({ pool = [], statusById = new Map(), onEscolher }) {
   const [mostrarFeitas, setMostrarFeitas] = useState(true)
 
   const { feitas, total, lista } = useMemo(() => {
@@ -54,45 +54,54 @@ export default function MissionChecklist({ pool = [], statusById = new Map() }) 
           const atual = status === 'active'
 
           return (
-            <li
-              key={c.id}
-              className={`flex items-start gap-3 rounded-xl border p-3 ${
-                feita
-                  ? 'border-emerald-300/70 bg-emerald-50/70'
-                  : atual
-                    ? 'border-tiffany bg-tiffany-soft'
-                    : 'border-petroleum/10 bg-white/80'
-              }`}
-            >
-              <span className="mt-0.5 shrink-0">
-                {feita ? (
-                  <Check className="h-5 w-5 text-emerald-600" aria-label="Concluída" />
-                ) : (
-                  <Circle
-                    className={`h-5 w-5 ${atual ? 'text-tiffany' : 'text-petroleum/25'}`}
-                    aria-hidden="true"
-                  />
-                )}
-              </span>
-
-              <span className="min-w-0 flex-1">
-                <span
-                  className={`block text-sm leading-snug ${
-                    feita
-                      ? 'text-emerald-900 line-through decoration-emerald-600/40'
-                      : 'text-petroleum'
-                  }`}
-                >
-                  {c.title}
+            <li key={c.id}>
+              <button
+                type="button"
+                disabled={feita}
+                onClick={() => !feita && onEscolher?.(c)}
+                className={`flex w-full items-start gap-3 rounded-xl border p-3 text-left transition ${
+                  feita
+                    ? 'cursor-default border-emerald-300/70 bg-emerald-50/70'
+                    : atual
+                      ? 'cursor-pointer border-tiffany bg-tiffany-soft hover:border-gold'
+                      : 'cursor-pointer border-petroleum/10 bg-white/80 hover:border-gold'
+                }`}
+              >
+                <span className="mt-0.5 shrink-0">
+                  {feita ? (
+                    <Check className="h-5 w-5 text-emerald-600" aria-label="Concluída" />
+                  ) : (
+                    <Circle
+                      className={`h-5 w-5 ${atual ? 'text-tiffany' : 'text-petroleum/25'}`}
+                      aria-hidden="true"
+                    />
+                  )}
                 </span>
-                <span className="mt-1 flex items-center gap-1.5">
-                  <DifficultyMark level={c.difficulty} className="h-3 w-3" />
-                  <span className="text-[11px] text-petroleum/50">
-                    {difficultyLabel(c.difficulty)}
-                    {atual && ' · é a sua agora'}
+
+                <span className="min-w-0 flex-1">
+                  <span
+                    className={`block text-sm leading-snug ${
+                      feita
+                        ? 'text-emerald-900 line-through decoration-emerald-600/40'
+                        : 'text-petroleum'
+                    }`}
+                  >
+                    {c.title}
+                  </span>
+                  <span className="mt-1 flex items-center gap-1.5">
+                    <DifficultyMark level={c.difficulty} className="h-3 w-3" />
+                    <span className="text-[11px] text-petroleum/50">
+                      {difficultyLabel(c.difficulty)}
+                      {atual && ' · é a sua agora'}
+                      {!feita && ' · toque para cumprir'}
+                    </span>
                   </span>
                 </span>
-              </span>
+
+                {!feita && (
+                  <Upload className="mt-0.5 h-4 w-4 shrink-0 text-gold" aria-hidden="true" />
+                )}
+              </button>
             </li>
           )
         })}

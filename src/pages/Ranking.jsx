@@ -3,7 +3,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { ConfigWarning, ErrorNote, FullPageLoader } from '../components/ui'
 import { useAuth } from '../context/AuthContext'
 import { getRankingData, subscribeCompletions } from '../lib/api'
-import { MAX_LIVRES_PONTUANDO, calcularRanking } from '../lib/ranking'
+import { calcularRanking } from '../lib/ranking'
 
 export default function Ranking() {
   const { guest } = useAuth()
@@ -173,9 +173,8 @@ export default function Ranking() {
           </li>
         </ul>
         <p className="mt-3 text-xs text-petroleum/50">
-          Só os {MAX_LIVRES_PONTUANDO} primeiros desafios livres pontuam — depois disso eles
-          continuam indo para a galeria, mas não somam. Empate se resolve por quem chegou à
-          pontuação primeiro.
+          Todo desafio livre pontua, sem limite. Empate se resolve por quem chegou à pontuação
+          primeiro.
         </p>
       </section>
     </div>

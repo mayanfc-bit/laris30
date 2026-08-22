@@ -173,11 +173,12 @@ export default function Home() {
             onChanged={load}
           />
 
-          {/* Só para consulta: mostra o que já foi cumprido e o que falta.
-              Não dá para escolher daqui — o caminho continua sendo o sorteio. */}
+          {/* Mostra o que já foi cumprido e o que falta. Tocar numa missão
+              ainda não feita abre o envio direto, sem passar pelo sorteio. */}
           <MissionChecklist
             pool={state.challenges.filter((c) => c.type === 'random')}
             statusById={derived.statusById}
+            onEscolher={setUploadFor}
           />
         </section>
       )}
