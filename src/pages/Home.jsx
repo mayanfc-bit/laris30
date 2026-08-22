@@ -2,6 +2,7 @@ import { BookHeart, Check, Dices, Pin, PlusCircle } from 'lucide-react'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import ChallengeCard from '../components/ChallengeCard'
 import DrawSection from '../components/DrawSection'
+import MissionChecklist from '../components/MissionChecklist'
 import UploadModal from '../components/UploadModal'
 import { ConfigWarning, ErrorNote, FullPageLoader, Modal, Spinner } from '../components/ui'
 import { useAuth } from '../context/AuthContext'
@@ -170,6 +171,13 @@ export default function Home() {
             statusById={derived.statusById}
             onOpenUpload={setUploadFor}
             onChanged={load}
+          />
+
+          {/* Só para consulta: mostra o que já foi cumprido e o que falta.
+              Não dá para escolher daqui — o caminho continua sendo o sorteio. */}
+          <MissionChecklist
+            pool={state.challenges.filter((c) => c.type === 'random')}
+            statusById={derived.statusById}
           />
         </section>
       )}
